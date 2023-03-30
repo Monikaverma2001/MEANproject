@@ -1,0 +1,23 @@
+express is nodejs web application framework ,provide simple middlewre APIs  to buld website,web apps and back end.
+installation : npm install express --save
+
+
+make reference variable/import of express which is module         : var express=require('express')
+instialize express    make object of express                      : var app=express();
+config route of get method with '/' path now you can do all by app: app.get('/',(req,res)=>res.send("work"))
+                listening                                         : app.listen(3000);
+
+request : post get put patch delete
+
+express js crud operations: http methods
+C-create - post()
+R-read   - get()
+U-update - put()
+D-delete - delete()
+
+routing : section of express code that associate with HTTP verb(get,post,put,delete), url path and a function is called handle that path
+modular approches : routes.js   var route=express.Router();
+route.get('/',function(req,res)=>
+{
+    
+})
