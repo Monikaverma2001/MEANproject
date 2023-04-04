@@ -3,6 +3,8 @@ var mongoose = require('mongoose');
 // module.exports allows us to pass this to other files when it is called
 module.exports = mongoose.model('Student', {
 name : {type : String, default: ''},
-password :{type : String, default: ''},
-position :{type : Boolean, default: false}
+phone:{type:Number,default:0000000000},
+semester:{type:Number,default:0},
+comment:{type:String,default:''},
+mentor:{type:String,default:''}
 });

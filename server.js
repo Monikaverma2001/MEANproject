@@ -5,12 +5,13 @@ const app = express();
 console.log("ok");
 // set our port
 var mongoose = require('mongoose');
-const port = 8080;
+const port = 3000;
 // config files
 
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.engine('html', require('ejs').renderFile);
 var db = require ( './config/db' );
+const Faculity = require('./models/faculity');
 console . log ( "connecting--" , db );
 
 mongoose . connect ( db . url ); //Mongoose connection created
@@ -42,34 +43,47 @@ app.get('/logo',
 var Student = require ( './models/student' );
 async function getItems(){
         
-    const Items = await Student.find({});
+    const Items = await Faculity.find({});
     return Items;
   
   }
 app.get('/faculity', async (req, res) => {
-    getItems().then(function(FoundItems){
+ Faculity.find({}).then(function(FoundItems){
               
         res.json(FoundItems);
     
     });
 });
+app.get('/student', async (req, res) => {
+  Student.find({}).then(function(FoundItems){
+            
+      res.json(FoundItems);
+  
+  });
+});
+
+
 app.post('/login', async (req, res) => {
   let name=req.body.name;
   let password=req.body.password;
-  let position=req.body.position;
-  Student.find({name,password,position}).then(function(FoundItems){
+  //var position=Faculity.findOne(name).position;
+  Faculity.find({name,password}).then(function(FoundItems){
         if(FoundItems==null)
         {
           res.sendFile(__dirname + '/view/home.html')
         } 
         else   
         {
-         if(position==false)
+          var v=Object.values(FoundItems);
+          var position=(v['0']['position']);
+
+         if(position=="true")
          {
-              res.sendFile(__dirname+'/view/mentorview/crud.html')
+
+              res.redirect('/faculityview')
          }
          else{
-           res.sendFile(__dirname + '/view/hodview/crud.html');
+          res.redirect('/mentorview')
          }
          
         }
@@ -78,7 +92,7 @@ app.post('/login', async (req, res) => {
 });
 app.post('/search', async (req, res) => {
   let name=req.body.name;
-  Student.findOne({name}).then(function(FoundItems){
+  Faculity.findOne({name}).then(function(FoundItems){
         if(FoundItems==null)
         {
           res.sendFile(__dirname + '/view/home.html')
@@ -99,26 +113,21 @@ app.post('/save', (req, res) => {
 //     db.close;
 // });
 // });
-const student= new Student({
+const faculity= new Faculity({
   name: req.body.name,
    password:req.body.password,
   position:req.body.position
 });
 
-student.save().then(()=>{
-  //res.redirect('/api/students');
+faculity.save().then(()=>{
+  res.redirect('/faculityview');
 }).catch((err)=>{
   console.log("kuch err hai ");
   console.log(err);
 })
 
 })
-app.delete('/quotes/:id', (req,res) => {
-  const id = req.params.id
-  // await User.findByIdAndRemove(id).exec()
-  // res.send('Deleted')
-  console.log(id);
-})
+
 // console.log(req.body)
 // student.insertOne(req.body)
 //     .then(result => {
@@ -135,6 +144,31 @@ app.delete('/quotes/:id', (req,res) => {
   //     });
   //   };
   // });
+
+app.post('/delete',function(req,res){
+
+  var name=req.body.name;
+  var position=req.body.position;
+  Faculity.deleteOne({name,position}).then(()=>{
+    res.redirect('/faculityview');
+    
+  }).catch((err)=>{
+    console.log("kuch err hai ");
+    console.log(err);
+  })
+
+})
+
+app.get('/faculityview',function(req,res){
+  
+  var items=Faculity.find({}).then(function(FoundItems){
+    res.render(__dirname+'/view/hodview/crud.html',{name:FoundItems})
+  })
+  
+});
+app.get('/mentorview',(req,res)=>res.sendFile(__dirname+'/view/mentorview/crud.html'));
+
+
 app.get('/first',
 (req, res) =>res.sendFile(__dirname + '/images/first.jpeg')
 )

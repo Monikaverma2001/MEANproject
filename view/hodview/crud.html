@@ -7,6 +7,7 @@
     <title>crud operations</title>
 </head>
 <body>
+  
     <h1>SEARCH FACULITY</h1>
     <form action="/faculity" method="GET" >
           <input type="text" placeholder="username" name="name">
@@ -32,6 +33,16 @@
       <h1>DELETE FACULITY MEMEBER</h1>
     <form action="/delete" method="POST" >
         <input type="text" placeholder="username" name="name">
+        <div>
+          <input type="radio" id="HOD" name="position" value="true"
+                 checked >
+          <label for="HOD">HOD</label>
+        </div>
+    
+        <div>
+          <input type="radio" id="Mentor" name="position" value="false">
+          <label for="Mnetor">Mentor</label>
+        </div>
         <button type="submit" >delete</button>
     </form><br><br><br>
     <h1>UPDATE FACULITY MEMBER</h1>
@@ -49,6 +60,8 @@
           </div>
         <button type="submit" >update</button>
     </form>
-    <a href="/faculity">get students</a>
+    <a href="/faculity">get faculity</a>
+    <div id="FoundItems"><%= name %></div>
+    
 </body>
 </html>
