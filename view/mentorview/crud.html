@@ -7,15 +7,37 @@
     <title>crud operations</title>
 </head>
 <body>
-    <form action="">
-        <button>add student</button>
-    </form><br>
-    <form action="">
-        <button>delete student</button>
-    </form><br>
-    <form action="">
-        <button>update student</button>
-    </form><br>
-    <a href="/student">get students</a>
+    <h1>SEARCH STUDENT</h1>
+    <form action="/student" method="GET" >
+        <input type="number" placeholder="semster" name="semester">
+          <button type="submit" >Search</button>
+      </form><br><br><br>
+      <h1>ADD STUDENT</h1>
+      <form action="/student/save" method="POST" >
+       
+        <input type="text" placeholder="username" name="name">
+        <input type="number" placeholder="phonenumber" name="phone">
+        <input type="number" placeholder="semster" name="semester">
+        <input type="text" placeholder="comment" name="comment">
+        <input type="text" placeholder="student mentor" name="mentor">
+        <button type="submit" >add data</button>
+      </form><br><br><br>
+      <h1>DELETE STUDENT</h1>
+    <form action="/student/delete" method="POST" >
+        <input type="text" placeholder="username" name="name">
+        <button type="submit" >delete</button>
+    </form><br><br><br>
+    <h1>UPDATE STUDENT</h1>
+    <form  >
+        <input type="text" placeholder="username" name="name">
+        <input type="number" placeholder="phonenumber" name="phone">
+        <input type="number" placeholder="semster" name="semester">
+        <input type="text" placeholder="comment" name="comment">
+        <input type="text" placeholder="student mentor" name="mentor">
+        <button type="submit" >update</button>
+    </form>
+    <a href="/student">get student</a>
+    <div id="FoundItems"><%= name %></div>
+    
 </body>
 </html>

@@ -5,7 +5,7 @@ const app = express();
 console.log("ok");
 // set our port
 var mongoose = require('mongoose');
-const port = 3000;
+const port = 8000;
 // config files
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -98,21 +98,19 @@ app.post('/search', async (req, res) => {
           res.sendFile(__dirname + '/view/home.html')
         } 
         else   
-      res.sendFile(__dirname + '/view/hodview/crud.html');
+      res.render(__dirname + '/view/hodview/crud.html');
   
+  });
+});
+app.get('/student/search', async (req, res) => {
+  let semester=req.body.semester;
+  Student.findOne({semester}).then(function(FoundItems){
+    res.redirect('/mentorview');
   });
 });
 
 
 app.post('/save', (req, res) => {
-   // var student = new Student(); // create a new instance of the student model
-//   var item= req.body.name; //ody set the student name (comes from the request)
-//   student.save(item, function (err, result) {
-    
-//     console.log('item has been inserted');
-//     db.close;
-// });
-// });
 const faculity= new Faculity({
   name: req.body.name,
    password:req.body.password,
@@ -125,25 +123,29 @@ faculity.save().then(()=>{
   console.log("kuch err hai ");
   console.log(err);
 })
+})
+app.post('/student/save', (req, res) => {
+const student= new Student({
+ name: req.body.name,
+  phone:req.body.phone,
+  semester:req.body.semester,
+    comment:req.body.comment,
+    mentor:req.body.mentor
+
+});
+
+student.save().then(()=>{
+ res.redirect('/mentorview');
+}).catch((err)=>{
+ console.log("kuch err hai ");
+ console.log(err);
+})
 
 })
 
-// console.log(req.body)
-// student.insertOne(req.body)
-//     .then(result => {
-//       console.log(result)
-//     })
-//     .catch(error => console.error(error))
 
-  //   exports.insertOne = function(req, res) {
-  //     var emp = new Student(req.body);
-  //     emp.save(function(err, result) {
-  //       if (err)
-  //         res.send(err);
-  //       res.json(result);
-  //     });
-  //   };
-  // });
+
+
 
 app.post('/delete',function(req,res){
 
@@ -158,6 +160,22 @@ app.post('/delete',function(req,res){
   })
 
 })
+app.post('/student/delete',function(req,res){
+
+  var name=req.body.name;
+  
+  Student.deleteOne({name}).then(()=>{
+    res.redirect('/mentorview');
+    
+  }).catch((err)=>{
+    console.log("kuch err hai ");
+    console.log(err);
+  })
+
+})
+
+
+
 
 app.get('/faculityview',function(req,res){
   
@@ -166,7 +184,11 @@ app.get('/faculityview',function(req,res){
   })
   
 });
-app.get('/mentorview',(req,res)=>res.sendFile(__dirname+'/view/mentorview/crud.html'));
+app.get('/mentorview',function(req,res){
+  var items=Student.find({}).then(function(FoundItems){
+    res.render(__dirname+'/view/mentorview/crud.html',{name:FoundItems})
+  })
+});
 
 
 app.get('/first',
