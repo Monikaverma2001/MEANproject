@@ -6,8 +6,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>crud operations</title>
 </head>
-<body>
+
+<style>
+  .row{
+    display: inline-flex;
+    flex-direction: row;
+    text-align: center;
+  }
+  iframe {
+   
+  border: none;
+  float:left;
+  padding: 0px 0px;
+}
+
+.fac{
+  display: inline;
+}
+.row-center{
+  display: flex;
+    flex-direction: row;
+    text-align: center;
+    background-color: green;
+}
+li{
+  margin: auto 90px;
+  text-align: center;
+}
+li a{
+  color: white;
+  font-size: 20px;
   
+}
+ </style>
+<body>
+  <nav class="row-center">
+    
+        <ul class="row-center">
+          <li class="nav-item active">
+            <a class="nav-link" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Pricing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item" >
+              <a class='nav-link'href="/login">login</a>
+          </li>
+        </ul>
+      
+  </nav>
+  <div class="row">
+ <div>
+  <iframe style="height:2000px;width:300px;" title="Iframe Example" src="/mentorview" ></iframe>
+  
+</div>
+
+<div class="fac">
     <h1>SEARCH FACULITY</h1>
     <form action="/faculity" method="GET" >
           <input type="text" placeholder="username" name="name">
@@ -49,6 +109,7 @@
     <form  >
         <input type="text" placeholder="update" name="name"><br>
         <input type="text" placeholder="password" name="password"required><br>
+        <div>
         <input type="radio" id="HOD" name="position" value="true"
                    checked >
             <label for="HOD">HOD</label>
@@ -57,11 +118,12 @@
           <div>
             <input type="radio" id="Mentor" name="position" value="false">
             <label for="Mnetor">Mentor</label>
-          </div>
+          </div><br>
         <button type="submit" >update</button>
     </form>
     <a href="/faculity">get faculity</a>
     <div id="FoundItems"><%= name %></div>
-    
+  </div>
+</div>
 </body>
 </html>
