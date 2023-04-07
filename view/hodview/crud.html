@@ -68,6 +68,11 @@ li a{
 </div>
 
 <div class="fac">
+  <br>
+  <form action="/searchStudent" method="POST">
+    <input type="text" name="name" placeholder="getStudent">
+    <button type="submit">get detail of student</button>
+  </form>
     <h1>SEARCH FACULITY</h1>
     <form action="/faculity" method="GET" >
           <input type="text" placeholder="username" name="name">
@@ -121,6 +126,7 @@ li a{
           </div><br>
         <button type="submit" >update</button>
     </form>
+    
     <a href="/faculity">get faculity</a>
     <div id="FoundItems"><%= name %></div>
   </div>

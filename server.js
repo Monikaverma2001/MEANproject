@@ -5,9 +5,9 @@ const app = express();
 console.log("ok");
 // set our port
 var mongoose = require('mongoose');
-const port = 8000;
+const port = 3000;
 // config files
-
+var router = express.Router();
 app.use(bodyParser.urlencoded({ extended: true }))
 app.engine('html', require('ejs').renderFile);
 var db = require ( './config/db' );
@@ -102,80 +102,20 @@ app.post('/search', async (req, res) => {
   
   });
 });
-app.get('/student/search', async (req, res) => {
-  let semester=req.body.semester;
-  Student.findOne({semester}).then(function(FoundItems){
-    res.redirect('/mentorview');
-  });
-});
-
-
-app.post('/save', (req, res) => {
-const faculity= new Faculity({
-  name: req.body.name,
-   password:req.body.password,
-  position:req.body.position
-});
-
-faculity.save().then(()=>{
-  res.redirect('/faculityview');
-}).catch((err)=>{
-  console.log("kuch err hai ");
-  console.log(err);
-})
-})
-app.post('/student/save', (req, res) => {
-const student= new Student({
- name: req.body.name,
-  phone:req.body.phone,
-  semester:req.body.semester,
-    comment:req.body.comment,
-    mentor:req.body.mentor
-
-});
-
-student.save().then(()=>{
- res.redirect('/mentorview');
-}).catch((err)=>{
- console.log("kuch err hai ");
- console.log(err);
-})
-
-})
 
 
 
+const hodController=require('./controller/hodController')
+const mentorController=require('./controller/mentorController')
 
 
-app.post('/delete',function(req,res){
-
-  var name=req.body.name;
-  var position=req.body.position;
-  Faculity.deleteOne({name,position}).then(()=>{
-    res.redirect('/faculityview');
-    
-  }).catch((err)=>{
-    console.log("kuch err hai ");
-    console.log(err);
-  })
-
-})
-app.post('/student/delete',function(req,res){
-
-  var name=req.body.name;
-  
-  Student.deleteOne({name}).then(()=>{
-    res.redirect('/mentorview');
-    
-  }).catch((err)=>{
-    console.log("kuch err hai ");
-    console.log(err);
-  })
-
-})
-
-
-
+app.post('/save',hodController.insertfaculity);
+app.post('/student/save', mentorController.insertstudent)
+app.post('/delete',hodController.deletefaculity);
+app.post('/student/delete',mentorController.deletestudent);
+app.get('/student/search',mentorController.searchAll);
+app.post('/searchStudent',mentorController.searchStudent);
+app.post('/searchBysem',mentorController.searchStudentSem);
 
 app.get('/faculityview',function(req,res){
   
@@ -201,6 +141,6 @@ app.get('/second',
 app.get('/third',
 (req, res) =>res.sendFile(__dirname + '/images/third.jpg')
 )
-
+module.exports={router}
 
 app.listen(port, ()=> console.log(`Example app listening on port http://localhost:${port}/`));
