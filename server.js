@@ -79,7 +79,7 @@ app.post('/login', async (req, res) => {
 
          if(position=="true")
          {
-
+          
               res.redirect('/faculityview')
          }
          else{
@@ -130,17 +130,6 @@ app.get('/mentorview',function(req,res){
   })
 });
 
-
-app.get('/first',
-(req, res) =>res.sendFile(__dirname + '/images/first.jpeg')
-)
-app.get('/second',
-(req, res) =>res.sendFile(__dirname + '/images/second.jpg')
-)
-
-app.get('/third',
-(req, res) =>res.sendFile(__dirname + '/images/third.jpg')
-)
-module.exports={router}
-
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')))
 app.listen(port, ()=> console.log(`Example app listening on port http://localhost:${port}/`));
