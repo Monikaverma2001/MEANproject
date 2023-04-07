@@ -48,6 +48,7 @@ exports.searchStudentSem=function(req,res){
     console.log(semester);
     Student.find({"semester":semester}).then(function(FoundItems){
         res.json(FoundItems);
+        
     
     }).catch((err)=>{
         console.log("kuch err hai ");

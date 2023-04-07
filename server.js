@@ -5,9 +5,17 @@ const app = express();
 console.log("ok");
 // set our port
 var mongoose = require('mongoose');
+
+const passport = require("passport"),
+LocalStrategy = require("passport-local"),
+    passportLocalMongoose = 
+        require("passport-local-mongoose")
+
+
+
+
 const port = 3000;
-// config files
-var router = express.Router();
+
 app.use(bodyParser.urlencoded({ extended: true }))
 app.engine('html', require('ejs').renderFile);
 var db = require ( './config/db' );
@@ -55,11 +63,21 @@ app.get('/faculity', async (req, res) => {
     });
 });
 app.get('/student', async (req, res) => {
-  Student.find({}).then(function(FoundItems){
-            
-      res.json(FoundItems);
-  
-  });
+  var items=Student.find({}).then(function(FoundItems){
+    var mentor=Faculity.find({position:true}).then(function(i){
+      res.render(__dirname+'/view/data.html',{name:FoundItems,mentor:i,name2:null})
+
+    })
+      })
+});
+app.post('/studentsem', async (req, res) => {
+  var sem=req.body.semester;
+  var items=Student.find({semester:sem}).then(function(FoundItems){
+    var mentor=Faculity.find({position:false}).then(function(i){
+      res.render(__dirname+'/view/data.html',{name2:FoundItems,mentor:i,name:null})
+
+    })
+      })
 });
 
 
@@ -104,6 +122,19 @@ app.post('/search', async (req, res) => {
 });
 
 
+app.use(require("express-session")({
+  secret: "Rusty is a dog",
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) return next();
+  res.redirect("/login");
+}
+
 
 const hodController=require('./controller/hodController')
 const mentorController=require('./controller/mentorController')
@@ -126,10 +157,16 @@ app.get('/faculityview',function(req,res){
 });
 app.get('/mentorview',function(req,res){
   var items=Student.find({}).then(function(FoundItems){
-    res.render(__dirname+'/view/mentorview/crud.html',{name:FoundItems})
-  })
-});
+    var mentor=Faculity.find({position:false}).then(function(i){
+      res.render(__dirname+'/view/mentorview/crud.html',{name:FoundItems,mentor:i})
 
+    })
+      })
+});
+app.post('/show',function(req,res){
+    var name=req.body.mentor;
+    console.log(name);
+  })
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')))
 app.listen(port, ()=> console.log(`Example app listening on port http://localhost:${port}/`));

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>crud operations</title>
+  
+    </head>
+    
+<body>
+    
+    <h1>SEARCH STUDENT</h1>
+    <form action="/studentsem" method="POST" >
+        <input type="number" placeholder="semster" name="semester"  min="1" max="8" step="1">
+          <button type="submit" >Search</button>
+      </form><br><br><br>
+      
+
+      <div  id="FoundItems" ><% if(name2!=null) { %>
+        <thead>Student details</thead> 
+ <table >
+     <tr >
+       <th>name</th>
+       <th>phone</th>
+       <th>mentor</th>
+     </tr>
+ <% name2.forEach(function(item){ %>
+ <tr>
+    
+     <td><%= item.name%></td>
+     <td><%= item.phone%></td>
+     <td><%= item.mentor%></td>
+
+ </tr>
+ <% }) %>
+</table>
+ <% } %>
+</div>
+
+   
+
+    <div  id="FoundItems" ><% if(name!=null) { %>
+        <thead>Student details</thead> 
+ <table >
+     <tr >
+       <th>name</th>
+       <th>phone</th>
+       <th>mentor</th>
+     </tr>
+ <% name.forEach(function(item){ %>
+ <tr>
+    
+     <td><%= item.name%></td>
+     <td><%= item.phone%></td>
+     <td><%= item.mentor%></td>
+
+ </tr>
+ <% }) %>
+</table>
+ <% } %>
+</div>
+<form action="/mentorview">
+    <button type="submit">go back</button>
+</form>
+   
+</body>
+</html>

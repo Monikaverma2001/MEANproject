@@ -11,19 +11,33 @@
 <body>
     
     <h1>SEARCH STUDENT</h1>
-    <form action="/searchBysem" method="POST" >
-        <input type="number" placeholder="semster" name="semester">
+    <form action="/studentsem" method="POST" >
+        <input type="number" placeholder="semster" name="semester"  min="1" max="8" step="1">
           <button type="submit" >Search</button>
       </form><br><br><br>
       <h1>ADD STUDENT</h1>
       <form action="/student/save" method="POST" >
        
         <input type="text" placeholder="username" name="name">
-        <input type="number" placeholder="phonenumber" name="phone">
-        <input type="number" placeholder="semster" name="semester">
+        <input type="number" placeholder="phonenumber" name="phone"><br>
+        <input type="number" placeholder="semster" name="semester" min="1" max="8" step="1">
         <input type="text" placeholder="comment" name="comment">
-        <input type="text" placeholder="student mentor" name="mentor">
-        <button type="submit" >add data</button>
+        <div  id="i"><% if(mentor!=null) { %>
+            
+            <ul>
+                <label for="mentor">Enter mentor</label>
+        
+            <% mentor.forEach(function(item){ %>
+            <li>
+                <input type="radio" id="mentor" name="mentor" value="<%= item.name %>"
+                       checked >
+                <label for="mentor"><%= item.name%></label>
+    
+            </li>
+            <% }) %>
+        </ul>
+            <% } %>
+        </div>        <button type="submit" >add data</button>
       </form><br><br><br>
       <h1>DELETE STUDENT</h1>
     <form action="/student/delete" method="POST" >
@@ -33,14 +47,31 @@
     <h1>UPDATE STUDENT</h1>
     <form  >
         <input type="text" placeholder="username" name="name">
-        <input type="number" placeholder="phonenumber" name="phone">
-        <input type="number" placeholder="semster" name="semester">
+        <input type="number" placeholder="phonenumber" name="phone"><br>
+        <input type="number" placeholder="semster" name="semester" id="semester" min="1" max="8" step="1">
+        
         <input type="text" placeholder="comment" name="comment">
-        <input type="text" placeholder="student mentor" name="mentor">
+        <div  id="i"><% if(mentor!=null) { %>
+            
+            <ul>
+                <label for="mentor">Enter mentor</label>
+        
+            <% mentor.forEach(function(item){ %>
+            <li>
+                <input type="radio" id="mentor" name="mentor" value="<%= item.name %>"
+                       checked >
+                <label for="mentor"><%= item.name%></label>
+    
+            </li>
+            <% }) %>
+        </ul>
+            <% } %>
+        </div> 
+        
         <button type="submit" >update</button>
     </form>
     <a href="/student">get student</a>
-    <div id="FoundItems"><%= name %></div>
-    
+   
+
 </body>
 </html>

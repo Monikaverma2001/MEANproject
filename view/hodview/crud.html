@@ -73,6 +73,27 @@ li a{
     <input type="text" name="name" placeholder="getStudent">
     <button type="submit">get detail of student</button>
   </form>
+  <div  id="FoundItems" ><% if(name!=null) { %>
+           <thead>IT DEPARTMENT MENTORS AND HOD</thead> 
+    <table >
+        <tr >
+          <th>name</th>
+          <th>phone</th>
+          <th>position</th>
+        </tr>
+    <% name.forEach(function(item){ %>
+    <tr>
+       
+        <td><%= item.name%></td>
+        <td><%= item.phone%></td>
+        <% if(item.position=="true") { %>     <td> HOD</td> <%}
+            else { %>     <td> Mentor</td> <%} %>
+
+    </tr>
+    <% }) %>
+  </table>
+    <% } %>
+</div>
     <h1>SEARCH FACULITY</h1>
     <form action="/faculity" method="GET" >
           <input type="text" placeholder="username" name="name">
