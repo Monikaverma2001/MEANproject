@@ -4,5 +4,6 @@ var mongoose = require('mongoose');
 module.exports = mongoose.model('Faculity', {
 name : {type : String, default: ''},
 password :{type : String, default: ''},
-position :{type : String, default: 'false'}
+position :{type : String, default: 'false'},
+phone:{type : String, default: 'false'}
 });

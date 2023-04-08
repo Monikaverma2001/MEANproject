@@ -6,10 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>crud operations</title>
 </head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
 <style>
+  th,td{
+    text-align: center;
+  }
+  form{
+    padding: 14px 14px;
+  }
+  .table{
+    width: 100%;
+    margin: 10px 10px;
+  }
+  .table th{
+    text-align: center;
+  }
   .row{
-    display: inline-flex;
+    display: flexbox;
     flex-direction: row;
     text-align: center;
   }
@@ -38,11 +57,14 @@ li a{
   font-size: 20px;
   
 }
+ul{
+  list-style-type: none;
+}
  </style>
 <body>
   <nav class="row-center">
     
-        <ul class="row-center">
+        <ul class="row-center" >
           <li class="nav-item active">
             <a class="nav-link" aria-current="page" href="#">Home</a>
           </li>
@@ -61,11 +83,59 @@ li a{
         </ul>
       
   </nav>
+  <nav class="row-center">
+    
+    <ul class="row-center">
+      <li class="nav-item active">
+        <a class="nav-link" aria-current="page" href="#" >dd mentor</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">delete</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">edit</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">get</a>
+      </li>
+      <li class="nav-item" >
+          <a class='nav-link'href="#">logout</a>
+      </li>
+    </ul>
+  
+</nav>
+  <form action="/faculityview" method="POST" >
+    <input type="number" placeholder="semster" name="semester"  min="1" max="8" step="1">
+      <button type="submit" >Search</button>
+  </form>
+  <div  id="FoundItems" ><% if(name2!=null) { %>
+    <thead>Student details</thead> 
+<table class="table ">
+ <tr >
+   <th>name</th>
+   <th>phone</th>
+   <th>mentor</th>
+   <th>semester</th>
+ </tr>
+<% name2.forEach(function(item){ %>
+<tr>
+
+ <td><%= item.name%></td>
+ <td><%= item.phone%></td>
+ <td><%= item.mentor%></td>
+ <td><%= item.semester%></td>
+
+</tr>
+<% }) %>
+</table>
+<% } %>
+  </div>
+
   <div class="row">
- <div>
+ <!--div>
   <iframe style="height:2000px;width:300px;" title="Iframe Example" src="/mentorview" ></iframe>
   
-</div>
+</div-->
 
 <div class="fac">
   <br>
@@ -73,32 +143,48 @@ li a{
     <input type="text" name="name" placeholder="getStudent">
     <button type="submit">get detail of student</button>
   </form>
-  <div  id="FoundItems" ><% if(name!=null) { %>
-           <thead>IT DEPARTMENT MENTORS AND HOD</thead> 
-    <table >
-        <tr >
-          <th>name</th>
-          <th>phone</th>
-          <th>position</th>
-        </tr>
-    <% name.forEach(function(item){ %>
-    <tr>
-       
-        <td><%= item.name%></td>
-        <td><%= item.phone%></td>
-        <% if(item.position=="true") { %>     <td> HOD</td> <%}
-            else { %>     <td> Mentor</td> <%} %>
+  
 
-    </tr>
-    <% }) %>
-  </table>
-    <% } %>
-</div>
+  <%= i=1 %>
+  <form action="/delete" method="POST">
+    <div  id="FoundItems" ><% if(name!=null) { %>
+      <table class="table " >
+        <thead>IT DEPARTMENT MENTORS AND HOD</thead> 
+  <tbody>
+          <tr >
+            <th>Serial Number</th>
+            <th>FACULITY NAME</th>
+            <th>FACULITY PHONE</th>
+            <th>FACULITY POSITION</th>
+            <th></th>
+            <th></th>
+          </tr>
+      <% name.forEach(function(item){ %>
+      <tr>
+         <td><%= i++ %></td>
+          <td><%= item.name%></td>
+          <td><%= item.phone%></td>
+          <% if(item.position=="true") { %>     <td> HOD</td> <%}
+              else { %>     <td> Mentor</td> <%} %>
+              <input type="text" style="display:none" value="<%= item.name%>"name="name">
+            
+              <input type="text"  name="position" value="<%= item.position%>" style="display:none">
+               
+              <td><button value="submit">delete</button></td>
+              <td><button>edit</button></td>
+      </tr>
+      <% }) %>
+  </tbody>
+    </table>
+      <% } %>
+    </div>
+  </form>
     <h1>SEARCH FACULITY</h1>
     <form action="/faculity" method="GET" >
           <input type="text" placeholder="username" name="name">
           <button type="submit" >Search</button>
       </form><br><br><br>
+      <div id="add">
       <h1>SAVE NEW FACULITY</h1>
       <form action="/save" method="POST" >
        
@@ -116,6 +202,7 @@ li a{
           </div>
         <button type="submit" >add data</button>
       </form><br><br><br>
+    </div>
       <h1>DELETE FACULITY MEMEBER</h1>
     <form action="/delete" method="POST" >
         <input type="text" placeholder="username" name="name">
@@ -149,8 +236,13 @@ li a{
     </form>
     
     <a href="/faculity">get faculity</a>
-    <div id="FoundItems"><%= name %></div>
-  </div>
+     </div>
 </div>
+<script>
+  function add()
+  {
+    document.getElementById("add").style.display=block;
+  }
+</script>
 </body>
 </html>

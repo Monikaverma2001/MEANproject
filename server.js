@@ -70,16 +70,6 @@ app.get('/student', async (req, res) => {
     })
       })
 });
-app.post('/studentsem', async (req, res) => {
-  var sem=req.body.semester;
-  var items=Student.find({semester:sem}).then(function(FoundItems){
-    var mentor=Faculity.find({position:false}).then(function(i){
-      res.render(__dirname+'/view/data.html',{name2:FoundItems,mentor:i,name:null})
-
-    })
-      })
-});
-
 
 app.post('/login', async (req, res) => {
   let name=req.body.name;
@@ -149,16 +139,41 @@ app.post('/searchStudent',mentorController.searchStudent);
 app.post('/searchBysem',mentorController.searchStudentSem);
 
 app.get('/faculityview',function(req,res){
-  
+  var sem=req.body.semester;
   var items=Faculity.find({}).then(function(FoundItems){
-    res.render(__dirname+'/view/hodview/crud.html',{name:FoundItems})
+    var it=Student.find({semester:sem}).then(function(i)
+    {
+      res.render(__dirname+'/view/hodview/crud.html',{name:FoundItems,name2:i})
+
+    })
+      })
+  
+});
+app.post('/faculityview',function(req,res){
+  var sem=req.body.semester;
+  var na=req.body.name;
+  var items=Faculity.find({}).then(function(FoundItems){
+    var it=Student.find({semester:sem}).then(function(i)
+    {
+      res.render(__dirname+'/view/hodview/crud.html',{name:FoundItems,name2:i})
+
+    })
   })
   
 });
 app.get('/mentorview',function(req,res){
   var items=Student.find({}).then(function(FoundItems){
     var mentor=Faculity.find({position:false}).then(function(i){
-      res.render(__dirname+'/view/mentorview/crud.html',{name:FoundItems,mentor:i})
+      res.render(__dirname+'/view/mentorview/crud.html',{name2:null,mentor:i})
+
+    })
+      })
+});
+app.post('/mentorview',function(req,res){
+  var sem=req.body.semester;
+  var items=Student.find({semester:sem}).then(function(FoundItems){
+    var mentor=Faculity.find({position:false}).then(function(i){
+      res.render(__dirname+'/view/mentorview/crud.html',{name2:FoundItems,mentor:i})
 
     })
       })
