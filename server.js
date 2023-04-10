@@ -2,6 +2,8 @@ const bodyParser= require('body-parser')
 
 const express = require('express');
 const app = express();
+const cors=require('cors');
+app.use(cors());
 console.log("ok");
 // set our port
 var mongoose = require('mongoose');
@@ -10,11 +12,11 @@ const passport = require("passport"),
 LocalStrategy = require("passport-local"),
     passportLocalMongoose = 
         require("passport-local-mongoose")
+      
 
 
 
-
-const port = 3000;
+const port = 8000;
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.engine('html', require('ejs').renderFile);
@@ -111,7 +113,7 @@ app.post('/search', async (req, res) => {
   });
 });
 
-
+var objectId = require("mongodb").ObjectId;
 app.use(require("express-session")({
   secret: "Rusty is a dog",
   resave: false,
@@ -138,6 +140,19 @@ app.get('/student/search',mentorController.searchAll);
 app.post('/searchStudent',mentorController.searchStudent);
 app.post('/searchBysem',mentorController.searchStudentSem);
 
+app.post('/delete:id',(req,res)=>
+{
+  var id=req.params.id;
+  id=id.slice(1, id.length);
+  console.log(id);
+  Faculity.findByIdAndDelete(new objectId(id)).then(()=>{
+    res.redirect('/faculityview');
+    
+  }).catch((err)=>{
+    console.log("kuch err hai ");
+    console.log(err);
+  });
+});
 app.get('/faculityview',function(req,res){
   var sem=req.body.semester;
   var items=Faculity.find({}).then(function(FoundItems){
@@ -177,6 +192,28 @@ app.post('/mentorview',function(req,res){
 
     })
       })
+});
+
+
+app.get("/update/:id", async (req, res) => {
+  var id=req.params.id;
+  id=id.slice(1, id.length);
+ // console.log(id);
+  res.render(__dirname+'/public/views/update.html',{name:id})
+
+});
+app.post("/edit/:id", async (req, res) => {
+  var id=req.params.id;
+  id=id.slice(1, id.length);
+  console.log(id);
+  var ph=req.body.phone;
+  Faculity.findByIdAndUpdate(new objectId(id),{phone:ph}).then(()=>{
+    res.redirect('/faculityview');
+    
+  }).catch((err)=>{
+    console.log("kuch err hai ");
+    console.log(err);
+  });
 });
 app.post('/show',function(req,res){
     var name=req.body.mentor;

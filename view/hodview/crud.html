@@ -43,6 +43,7 @@
   display: inline;
 }
 .row-center{
+
   display: flex;
     flex-direction: row;
     text-align: center;
@@ -60,13 +61,14 @@ li a{
 ul{
   list-style-type: none;
 }
+
  </style>
 <body>
   <nav class="row-center">
     
         <ul class="row-center" >
           <li class="nav-item active">
-            <a class="nav-link" aria-current="page" href="#">Home</a>
+            <a class="nav-link" aria-current="page" href="/mentorview">change Student</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Features</a>
@@ -78,7 +80,7 @@ ul{
             <a class="nav-link" href="#">About</a>
           </li>
           <li class="nav-item" >
-              <a class='nav-link'href="/login">login</a>
+            
           </li>
         </ul>
       
@@ -99,18 +101,22 @@ ul{
         <a class="nav-link" href="#">get</a>
       </li>
       <li class="nav-item" >
-          <a class='nav-link'href="#">logout</a>
-      </li>
+        <form action="/searchStudent" method="POST">
+          <input type="text" name="name" placeholder="getStudent">
+          <button type="submit">get detail of student</button>
+        </form>
+        <form action="/faculityview" method="POST" >
+          <input type="number" placeholder="semster" name="semester"  min="1" max="8" step="1">
+            <button type="submit" >Search</button>
+        </form>      </li>
     </ul>
   
 </nav>
-  <form action="/faculityview" method="POST" >
-    <input type="number" placeholder="semster" name="semester"  min="1" max="8" step="1">
-      <button type="submit" >Search</button>
-  </form>
+  
   <div  id="FoundItems" ><% if(name2!=null) { %>
-    <thead>Student details</thead> 
+    
 <table class="table ">
+  <thead>Student details</thead> 
  <tr >
    <th>name</th>
    <th>phone</th>
@@ -139,10 +145,7 @@ ul{
 
 <div class="fac">
   <br>
-  <form action="/searchStudent" method="POST">
-    <input type="text" name="name" placeholder="getStudent">
-    <button type="submit">get detail of student</button>
-  </form>
+ 
   
 
   <%= i=1 %>
@@ -159,22 +162,26 @@ ul{
             <th></th>
             <th></th>
           </tr>
-      <% name.forEach(function(item){ %>
-      <tr>
+          <% name.forEach(function(item){ %>
+            <tr>
+        <form action="/delete:<%= item.id %>" method="POST">
+
          <td><%= i++ %></td>
           <td><%= item.name%></td>
           <td><%= item.phone%></td>
           <% if(item.position=="true") { %>     <td> HOD</td> <%}
               else { %>     <td> Mentor</td> <%} %>
-              <form action="/delete" method="POST">
- 
+               
               <input type="text" style="display:none" value="<%= item.name%>"name="name">
             
               <input type="text"  name="position" value="<%= item.position%>" style="display:none">
                
               <td><button value="submit">delete</button></td>
             </form>
-              <td><button>edit</button></td>
+            <form action="/update/:<%= item.id %>">
+              <td><button type="submit">edit</button></td>
+            </form>
+            
       </tr>
       <% }) %>
   </tbody>
@@ -223,22 +230,7 @@ ul{
         </div>
         <button type="submit" >delete</button>
     </form><br><br><br>
-    <h1>UPDATE FACULITY MEMBER</h1>
-    <form  >
-        <input type="text" placeholder="update" name="name"><br>
-        <input type="text" placeholder="password" name="password"required><br>
-        <div>
-        <input type="radio" id="HOD" name="position" value="true"
-                   checked >
-            <label for="HOD">HOD</label>
-          </div>
-      
-          <div>
-            <input type="radio" id="Mentor" name="position" value="false">
-            <label for="Mnetor">Mentor</label>
-          </div><br>
-        <button type="submit" >update</button>
-    </form>
+   
     
     <a href="/faculity">get faculity</a>
      </div>
