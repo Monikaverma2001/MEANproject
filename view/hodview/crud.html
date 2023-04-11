@@ -49,9 +49,9 @@
     text-align: center;
     background-color: green;
 }
-.row-center .nav-item{
- 
-   text-align: center;
+li{
+  margin: auto 90px;
+  text-align: center;
 }
 li a{
   color: white;
@@ -64,27 +64,47 @@ ul{
 
  </style>
 <body>
-  
+  <nav class="row-center">
+    
+        <ul class="row-center" >
+          <li class="nav-item active">
+            <a class="nav-link" aria-current="page" href="/mentorview">change Student</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Pricing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item" >
+            
+          </li>
+        </ul>
+      
+  </nav>
   <nav class="row-center">
     
     <ul class="row-center">
       <li class="nav-item active">
-        <a class="nav-link" aria-current="page" href="/mentorview">change Student</a>
+        <a class="nav-link" aria-current="page" href="#" >dd mentor</a>
       </li>
       <li class="nav-item">
-        <form action="/faculity" method="GET" >
-          <input type="text" placeholder="username" name="name">
-          <button type="submit" >Search</button>
-      </form>
+        <a class="nav-link" href="#">delete</a>
       </li>
-     <li class="nav-item">
-      <form action="/searchStudent" method="POST">
-        <input type="text" name="name" placeholder="getStudent">
-        <button type="submit">get detail of student</button>
-      </form>
-     </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">edit</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">get</a>
+      </li>
       <li class="nav-item" >
-        
+        <form action="/searchStudent" method="POST">
+          <input type="text" name="name" placeholder="getStudent">
+          <button type="submit">get detail of student</button>
+        </form>
         <form action="/faculityview" method="POST" >
           <input type="number" placeholder="semster" name="semester"  min="1" max="8" step="1">
             <button type="submit" >Search</button>
@@ -96,7 +116,7 @@ ul{
   <div  id="FoundItems" ><% if(name2!=null) { %>
     
 <table class="table ">
- <h1 style="text-align: center;">STUDENT DETAIL</h1>
+  <thead>Student details</thead> 
  <tr >
    <th>name</th>
    <th>phone</th>
@@ -169,7 +189,11 @@ ul{
       <% } %>
     </div>
  
-   <br><br><br>
+    <h1>SEARCH FACULITY</h1>
+    <form action="/faculity" method="GET" >
+          <input type="text" placeholder="username" name="name">
+          <button type="submit" >Search</button>
+      </form><br><br><br>
       <div id="add">
       <h1>SAVE NEW FACULITY</h1>
       <form action="/save" method="POST" >
@@ -191,7 +215,21 @@ ul{
         <button type="submit" >add data</button>
       </form><br><br><br>
     </div>
-      
+      <h1>DELETE FACULITY MEMEBER</h1>
+    <form action="/delete" method="POST" >
+        <input type="text" placeholder="username" name="name">
+        <div>
+          <input type="radio" id="HOD" name="position" value="true"
+                 checked >
+          <label for="HOD">HOD</label>
+        </div>
+    
+        <div>
+          <input type="radio" id="Mentor" name="position" value="false">
+          <label for="Mnetor">Mentor</label>
+        </div>
+        <button type="submit" >delete</button>
+    </form><br><br><br>
    
     
     <a href="/faculity">get faculity</a>
