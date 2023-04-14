@@ -1,187 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>crud operations</title>
-</head>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>crud operations</title>
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Latest compiled and minified JavaScript -->
-<style>
-  th,td{
+<!--style>
+  th,
+  td {
     text-align: center;
   }
-  form{
+
+  form {
     padding: 14px 14px;
   }
-  .table{
+
+  .table {
     width: 100%;
     margin: 10px 10px;
   }
-  .table th{
+
+  .table th {
     text-align: center;
   }
-  .row{
+
+  .row {
     display: flexbox;
     flex-direction: row;
     text-align: center;
   }
+
   iframe {
-   
-  border: none;
-  float:left;
-  padding: 0px 0px;
-}
 
-.fac{
-  display: inline;
-}
-.row-center{
+    border: none;
+    float: left;
+    padding: 0px 0px;
+  }
 
-  display: flex;
+  .fac {
+    display: inline;
+  }
+
+  .row-center {
+
+    display: flex;
     flex-direction: row;
     text-align: center;
     background-color: green;
-}
-li{
-  margin: auto 90px;
-  text-align: center;
-}
-li a{
-  color: white;
-  font-size: 20px;
-  
-}
-ul{
-  list-style-type: none;
-}
+  }
 
- </style>
+  li {
+    margin: auto 90px;
+    text-align: center;
+  }
+
+  li a {
+    color: white;
+    font-size: 20px;
+
+  }
+
+  ul {
+    list-style-type: none;
+  }
+  h1{
+    text-align: center;
+  }
+</style-->
+<style>
+   h1{
+    text-align: center;
+    color: red;
+  }
+</style>
+
 <body>
-  
-  <nav class="row-center">
-    
-    <ul class="row-center">
-      <li class="nav-item active">
-        <a class="nav-link" aria-current="page" href="/mentorview">change Student</a>
-      </li>
-      <li class="nav-item">
-        <form action="/faculity" method="GET" >
-          <input type="text" placeholder="username" name="name">
-          <button type="submit" >Search</button>
-      </form>
-      </li>
-     <li class="nav-item">
-      <form action="/searchStudent" method="POST">
-        <input type="text" name="name" placeholder="getStudent">
-        <button type="submit">get detail of student</button>
-      </form>
-     </li>
-      <li class="nav-item" >
-        
-        <form action="/faculityview" method="POST" >
-          <input type="number" placeholder="semster" name="semester"  min="1" max="8" step="1">
-            <button type="submit" >Search</button>
-        </form>      </li>
-    </ul>
-  
-</nav>
-  <div  id="FoundItems" ><% if(name2!=null) { %>
-    
-<table class="table ">
-  <thead>Student details</thead> 
- <tr >
-   <th>name</th>
-   <th>phone</th>
-   <th>mentor</th>
-   <th>semester</th>
- </tr>
-<% name2.forEach(function(item){ %>
-<tr>
 
- <td><%= item.name%></td>
- <td><%= item.phone%></td>
- <td><%= item.mentor%></td>
- <td><%= item.semester%></td>
+ 
+  <nav class="navbar navbar-expand-sm bg-light">
+    <div class="container-fluid">
+      <ul class="navbar-nav m-2">
+        <a class="navbar-brand m-2" href="#">
+          <img src="./images/logo.jpg" alt="" style="width:45px;" class="rounded-pill"> 
+        </a>
+        <li class="nav-item m-3" >
+          <a class="nav-link" aria-current="page" href="/mentorview">change Student</a>
+        </li>
+        <li class="nav-item m-3">
+          <form action="/faculity" method="GET">
+            <input type="text" placeholder="username" name="name">
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+        </li>
+        <li class="nav-item m-3">
+          
+        </li>
+        <li class="nav-item m-3">
+          
+        </li>
+      </ul>
+      <form action="/searchStudent" class="d-flex" method="POST">
+        <input type="text" name="name" class=" me-2"  placeholder="getStudent">
+        <button type="submit" class="btn btn-primary">get student</button>
+      </form>
+      <form action="/faculityview " class="d-flex" method="POST">
+        <input class="form-control me-2" type="number" placeholder="semster" name="semester" min="1" max="8" step="1">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+    </div>
+  </nav>
 
-</tr>
-<% }) %>
-</table>
-<% } %>
+  <div class="container mt-16">
+    <div class="row">
+
+      <div class="col-sm-2">
+        my event box
+      </div>
+
+      <div class="col-sm-8">
+
+        <div id="FoundItems">
+          <% if(name2!=null) { %>
+<% i=1  %>
+            <table class="table ">
+              <h1>Student details</h1>
+              <tr>
+                <th>SN0.</th>
+                <th>name</th>
+                <th>phone</th>
+                <th>mentor</th>
+                <th>semester</th>
+              </tr>
+              <% name2.forEach(function(item){ %>
+                <tr>
+                  <td>
+                    <%= i++%>
+                  </td>
+                  <td>
+                    <%= item.name%>
+                  </td>
+                  <td>
+                    <%= item.phone%>
+                  </td>
+                  <td>
+                    <%= item.mentor%>
+                  </td>
+                  <td>
+                    <%= item.semester%>
+                  </td>
+
+                </tr>
+                <% }) %>
+            </table>
+            <% } %>
+        </div>
+        <div class="fac">
+
+          <% i=1 %>
+            <form action="/delete" method="POST">
+              <div id="FoundItems">
+
+                <% if(name!=null) { %>
+                  <table class="table ">
+                    <h1>IT DEPARTMENT MENTORS AND HOD</h1>
+                    <tbody>
+                      <tr>
+                        <th>SNo.</th>
+                        <th>FACULITY NAME</th>
+                        <th>FACULITY PHONE</th>
+                        <th>FACULITY POSITION</th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                      <% name.forEach(function(item){ %>
+                        <tr>
+
+                          <td>
+                            <%= i++ %>
+                          </td>
+                          <td>
+                            <%= item.name%>
+                          </td>
+                          <td>
+                            <%= item.phone%>
+                          </td>
+                          <% if(item.position=="true" ) { %>
+                            <td> HOD</td>
+                            <%} else { %>
+                              <td> Mentor</td>
+                              <%} %>
+                                <td>
+                                  <form action="/delete:<%= item.id %>" method="POST" style="display:inline-flex;">
+
+                                    <button value="submit">delete</button>
+                                  </form>
+                                  <form action="/update/:<%= item.id %>" style="display:inline-flex;">
+                                    <button type="submit">edit</button>
+                                  </form>
+                                </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                  </table>
+                  <% } %>
+              </div>
+
+
+        </div>
+      </div>
+
+      <div class="col-sm-2">
+
+
+        <a href="/faculity">get faculity</a>
+
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="row">
- <!--div>
-  <iframe style="height:2000px;width:300px;" title="Iframe Example" src="/mentorview" ></iframe>
-  
-</div-->
 
-<div class="fac">
-  <br>
- 
-  
-
-  <%= i=1 %>
-  <form action="/delete" method="POST">
-    <div  id="FoundItems" ><% if(name!=null) { %>
-      <table class="table " >
-        <thead>IT DEPARTMENT MENTORS AND HOD</thead> 
-  <tbody>
-          <tr >
-            <th>Serial Number</th>
-            <th>FACULITY NAME</th>
-            <th>FACULITY PHONE</th>
-            <th>FACULITY POSITION</th>
-            <th></th>
-            <th></th>
-          </tr>
-          <% name.forEach(function(item){ %>
-            <tr>
-        <form action="/delete:<%= item.id %>" method="POST">
-
-         <td><%= i++ %></td>
-          <td><%= item.name%></td>
-          <td><%= item.phone%></td>
-          <% if(item.position=="true") { %>     <td> HOD</td> <%}
-              else { %>     <td> Mentor</td> <%} %>
-               
-              <input type="text" style="display:none" value="<%= item.name%>"name="name">
-            
-              <input type="text"  name="position" value="<%= item.position%>" style="display:none">
-               
-              <td><button value="submit">delete</button></td>
-            </form>
-            <form action="/update/:<%= item.id %>">
-              <td><button type="submit">edit</button></td>
-            </form>
-            
-      </tr>
-      <% }) %>
-  </tbody>
-    </table>
-      <% } %>
-    </div>
- 
-    <h1>SEARCH FACULITY</h1>
-    <form action="/faculity" method="GET" >
-          <input type="text" placeholder="username" name="name">
-          <button type="submit" >Search</button>
-      </form><br><br><br>
-      
-    <a href="/faculity">get faculity</a>
-     </div>
-</div>
-<script>
-  function add()
-  {
-    document.getElementById("add").style.display=block;
-  }
-</script>
 </body>
+
 </html>
