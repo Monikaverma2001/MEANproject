@@ -22,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.engine('html', require('ejs').renderFile);
 var db = require ( './config/db' );
 const Faculity = require('./models/faculity');
+const event = require('./models/events');
+
 console . log ( "connecting--" , db );
 
 mongoose . connect ( db . url ); //Mongoose connection created

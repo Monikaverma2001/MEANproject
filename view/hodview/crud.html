@@ -121,11 +121,17 @@
 
       <div class="col-sm-2 ">
         <div>
+          <iframe src="./views/events.html" height="200">
+            Alternative text for browsers that do not understand IFrames.
+        </iframe>
           <% if(events!=null) { %>
            <ul>
                 <% events.forEach(function(item){ %>
                   <li>
                     <%= events.title %>
+                    <form action="">
+                      <button>delete</button>
+                    </form>
                   </li>
                   <% }) %>
                 </ul>
