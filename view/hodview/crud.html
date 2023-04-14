@@ -74,7 +74,7 @@
   }
 </style-->
 <style>
-   h1{
+  h1 {
     text-align: center;
     color: red;
   }
@@ -82,14 +82,14 @@
 
 <body>
 
- 
+
   <nav class="navbar navbar-expand-sm bg-light">
     <div class="container-fluid">
       <ul class="navbar-nav m-2">
         <a class="navbar-brand m-2" href="#">
-          <img src="./images/logo.jpg" alt="" style="width:45px;" class="rounded-pill"> 
+          <img src="./images/logo.jpg" alt="" style="width:45px;" class="rounded-pill">
         </a>
-        <li class="nav-item m-3" >
+        <li class="nav-item m-3">
           <a class="nav-link" aria-current="page" href="/mentorview">change Student</a>
         </li>
         <li class="nav-item m-3">
@@ -99,14 +99,14 @@
           </form>
         </li>
         <li class="nav-item m-3">
-          
+
         </li>
         <li class="nav-item m-3">
-          
+
         </li>
       </ul>
-      <form action="/searchStudent" class="d-flex" method="POST">
-        <input type="text" name="name" class=" me-2"  placeholder="getStudent">
+      <form action="/searchByName " class="d-flex" method="POST">
+        <input type="text" name="name" class=" me-2" placeholder="getStudent">
         <button type="submit" class="btn btn-primary">get student</button>
       </form>
       <form action="/faculityview " class="d-flex" method="POST">
@@ -116,49 +116,59 @@
     </div>
   </nav>
 
-  <div class="container mt-16">
+  <div class=" mt-16">
     <div class="row">
 
-      <div class="col-sm-2">
-        my event box
+      <div class="col-sm-2 ">
+        <div>
+          <% if(events!=null) { %>
+           <ul>
+                <% events.forEach(function(item){ %>
+                  <li>
+                    <%= events.title %>
+                  </li>
+                  <% }) %>
+                </ul>
+              <% } %>
+        </div>
       </div>
 
       <div class="col-sm-8">
 
-        <div id="FoundItems">
+        <div>
           <% if(name2!=null) { %>
-<% i=1  %>
-            <table class="table ">
-              <h1>Student details</h1>
-              <tr>
-                <th>SN0.</th>
-                <th>name</th>
-                <th>phone</th>
-                <th>mentor</th>
-                <th>semester</th>
-              </tr>
-              <% name2.forEach(function(item){ %>
+            <% i=1 %>
+              <table class="table ">
+                <h1>Student details</h1>
                 <tr>
-                  <td>
-                    <%= i++%>
-                  </td>
-                  <td>
-                    <%= item.name%>
-                  </td>
-                  <td>
-                    <%= item.phone%>
-                  </td>
-                  <td>
-                    <%= item.mentor%>
-                  </td>
-                  <td>
-                    <%= item.semester%>
-                  </td>
-
+                  <th>SN0.</th>
+                  <th>name</th>
+                  <th>phone</th>
+                  <th>mentor</th>
+                  <th>semester</th>
                 </tr>
-                <% }) %>
-            </table>
-            <% } %>
+                <% name2.forEach(function(item){ %>
+                  <tr>
+                    <td>
+                      <%= i++%>
+                    </td>
+                    <td>
+                      <%= item.name%>
+                    </td>
+                    <td>
+                      <%= item.phone%>
+                    </td>
+                    <td>
+                      <%= item.mentor%>
+                    </td>
+                    <td>
+                      <%= item.semester%>
+                    </td>
+
+                  </tr>
+                  <% }) %>
+              </table>
+              <% } %>
         </div>
         <div class="fac">
 
@@ -209,17 +219,16 @@
                     </tbody>
                   </table>
                   <% } %>
+                  </div>
               </div>
-
-
-        </div>
-      </div>
+            </div>
 
       <div class="col-sm-2">
 
-
+        
         <a href="/faculity">get faculity</a>
 
+      
       </div>
 
     </div>
