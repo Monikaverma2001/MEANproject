@@ -17,6 +17,7 @@
   "author": "Monika",
   "license": "ISC",
   "dependencies": {
+    "angular": "^1.8.3",
     "body-parser": "^1.20.2",
     "bootstrap": "^5.2.3",
     "cors": "^2.8.5",

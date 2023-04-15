@@ -78,170 +78,189 @@
     text-align: center;
     color: red;
   }
-  nav{
+
+  nav {
     background-color: green;
+  }
+  body{
+    font-size: smaller;
   }
 </style>
 
 <body>
+  
+  <div class="row">
+    <div class="col-sm-2 mt-2"></div>
+    <div class="col-sm-8  ">
+      <div >
+        <img src="./images/gndecnav.png" alt="" style="width:80%;" class="rounded-pill">
+        </div>
+      <nav class="navbar navbar-expand-sm "style="width:100%;">
+        <div class="container-fluid">
+          <ul class="navbar-nav m-2">
+            <a class="navbar-brand m-2" href="#">
+              <img src="./images/logo.jpg" alt="" style="width:45px;" class="rounded-pill">
+            </a>
+            <li class="nav-item m-3">
+              <a class="nav-link" aria-current="page" href="/mentorview">change Student</a>
+            </li>
+            <li class="nav-item m-3">
+              <form action="/faculity" class="d-flex" method="GET">
+                <input type="text" placeholder="username" name="name" style="width:20%;border-radius: 10px ;">
+                <button type="submit" class="btn btn-primary">Search</button>
+              </form>
+            </li>
+            <li class="nav-item m-3">
 
+            </li>
+            <li class="nav-item m-3">
 
-  <nav class="navbar navbar-expand-sm ">
-    <div class="container-fluid">
-      <ul class="navbar-nav m-2">
-        <a class="navbar-brand m-2" href="#">
-          <img src="./images/logo.jpg" alt="" style="width:45px;" class="rounded-pill">
-        </a>
-        <li class="nav-item m-3">
-          <a class="nav-link" aria-current="page" href="/mentorview">change Student</a>
-        </li>
-        <li class="nav-item m-3">
-          <form action="/faculity" method="GET">
-            <input type="text" placeholder="username" name="name">
+            </li>
+          </ul>
+          <form action="/searchByName " class="d-flex" method="POST">
+            <input type="text" name="name" class=" me-2" placeholder="getStudent" style="width:20%;border-radius: 10px ;">
             <button type="submit" class="btn btn-primary">Search</button>
           </form>
-        </li>
-        <li class="nav-item m-3">
+          <form action="/faculityview " class="d-flex" method="POST">
+            <input class="form-control me-2" type="number" placeholder="semster" name="semester" min="1" max="8"
+              step="1">
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+        </div>
+      </nav>
 
-        </li>
-        <li class="nav-item m-3">
+      <div class=" mt-16">
+        <div class="row">
 
-        </li>
-      </ul>
-      <form action="/searchByName " class="d-flex" method="POST">
-        <input type="text" name="name" class=" me-2" placeholder="getStudent">
-        <button type="submit" class="btn btn-primary">get student</button>
-      </form>
-      <form action="/faculityview " class="d-flex" method="POST">
-        <input class="form-control me-2" type="number" placeholder="semster" name="semester" min="1" max="8" step="1">
-        <button type="submit" class="btn btn-primary">Search</button>
-      </form>
-    </div>
-  </nav>
-
-  <div class=" mt-16">
-    <div class="row">
-
-      <div class="col-sm-2 mt-2">
-        <div>
-          <iframe src="./views/events.html" height="200">
-            Alternative text for browsers that do not understand IFrames.
-        </iframe>
-          <% if(events!=null) { %>
-           <ul>
-                <% events.forEach(function(item){ %>
-                  <li>
-                    <%= events.title %>
-                    <form action="">
-                      <button>delete</button>
-                    </form>
-                  </li>
-                  <% }) %>
+          <div class="col-sm-3 mt-2">
+            <div>
+              <iframe src="./views/events.html" height="200">
+                Alternative text for browsers that do not understand IFrames.
+              </iframe>
+              <% if(events!=null) { %>
+                <ul>
+                  <% events.forEach(function(item){ %>
+                    <li>
+                      <%= events.title %>
+                        <form action="">
+                          <button>delete</button>
+                        </form>
+                    </li>
+                    <% }) %>
                 </ul>
-              <% } %>
-        </div>
-      </div>
+                <% } %>
+            </div>
+          </div>
 
-      <div class="col-sm-8">
+          <div class="col-sm-6">
 
-        <div>
-          <% if(name2!=null) { %>
-            <% i=1 %>
-              <table class="table ">
-                <h1>Student details</h1>
-                <tr>
-                  <th>SN0.</th>
-                  <th>name</th>
-                  <th>phone</th>
-                  <th>mentor</th>
-                  <th>semester</th>
-                </tr>
-                <% name2.forEach(function(item){ %>
-                  <tr>
-                    <td>
-                      <%= i++%>
-                    </td>
-                    <td>
-                      <%= item.name%>
-                    </td>
-                    <td>
-                      <%= item.phone%>
-                    </td>
-                    <td>
-                      <%= item.mentor%>
-                    </td>
-                    <td>
-                      <%= item.semester%>
-                    </td>
-
-                  </tr>
-                  <% }) %>
-              </table>
-              <% } %>
-        </div>
-        <div class="fac">
-
-          <% i=1 %>
-            <form action="/delete" method="POST">
-              <div id="FoundItems">
-
-                <% if(name!=null) { %>
+            <div>
+              <% if(name2!=null) { %>
+                <% i=1 %>
                   <table class="table ">
-                    <h1>IT DEPARTMENT MENTORS AND HOD</h1>
-                    <tbody>
+                    <h1>Student details</h1>
+                    <tr>
+                      <th>SN0.</th>
+                      <th>name</th>
+                      <th>phone</th>
+                      <th>mentor</th>
+                      <th>semester</th>
+                    </tr>
+                    <% name2.forEach(function(item){ %>
                       <tr>
-                        <th>SNo.</th>
-                        <th>FACULITY NAME</th>
-                        <th>FACULITY PHONE</th>
-                        <th>FACULITY POSITION</th>
-                        <th></th>
-                        <th></th>
+                        <td>
+                          <%= i++%>
+                        </td>
+                        <td>
+                          <%= item.name%>
+                        </td>
+                        <td>
+                          <%= item.phone%>
+                        </td>
+                        <td>
+                          <%= item.mentor%>
+                        </td>
+                        <td>
+                          <%= item.semester%>
+                        </td>
+
                       </tr>
-                      <% name.forEach(function(item){ %>
-                        <tr>
-
-                          <td>
-                            <%= i++ %>
-                          </td>
-                          <td>
-                            <%= item.name%>
-                          </td>
-                          <td>
-                            <%= item.phone%>
-                          </td>
-                          <% if(item.position=="true" ) { %>
-                            <td> HOD</td>
-                            <%} else { %>
-                              <td> Mentor</td>
-                              <%} %>
-                                <td>
-                                  <form action="/delete:<%= item.id %>" method="POST" style="display:inline-flex;">
-
-                                    <button value="submit" class="btn btn-danger">delete</button>
-                                  </form>
-                                  <form action="/update/:<%= item.id %>" style="display:inline-flex;">
-                                    <button type="submit" class="btn btn-success">edit</button>
-                                  </form>
-                                </td>
-                        </tr>
-                        <% }) %>
-                    </tbody>
+                      <% }) %>
                   </table>
                   <% } %>
-                  </div>
-              </div>
             </div>
+            <div class="fac">
 
-      <div class="col-sm-2">
+              <% i=1 %>
+                <h1>IT DEPARTMENT MENTORS AND HOD </h1>
+                <form action="/addfaculity" method="GET" style="text-align:end;">
+                  <button type="submit" class="btn btn-info">add facultiy</button>
+                </form>
+                <form action="/delete" method="POST">
+                  <div id="FoundItems">
 
-        
-        <a href="/faculity">get faculity</a>
+                    <% if(name!=null) { %>
+                      <table class="table ">
 
-      
+
+                        <tbody>
+                          <tr>
+                            <th>SNo.</th>
+                            <th>FACULITY NAME</th>
+                            <th>FACULITY PHONE</th>
+                            <th>FACULITY POSITION</th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                          <% name.forEach(function(item){ %>
+                            <tr>
+
+                              <td>
+                                <%= i++ %>
+                              </td>
+                              <td>
+                                <%= item.name%>
+                              </td>
+                              <td>
+                                <%= item.phone%>
+                              </td>
+                              <% if(item.position=="true" ) { %>
+                                <td> HOD</td>
+                                <%} else { %>
+                                  <td> Mentor</td>
+                                  <%} %>
+                                    <td>
+                                      <form action="/delete:<%= item.id %>" method="POST" style="display:inline-flex;">
+
+                                        <button value="submit" class="btn btn-danger">delete</button>
+                                      </form></td>
+                                      <td>
+                                      <form action="/update/:<%= item.id %>" style="display:inline-flex;">
+                                        <button type="submit" class="btn btn-success">edit</button>
+                                      </form>
+                                    </td>
+                            </tr>
+                            <% }) %>
+                        </tbody>
+                      </table>
+                      <% } %>
+                  </div>
+            </div>
+          </div>
+
+          <div class="col-sm-1">
+
+
+            <a href="/faculity">get faculity</a>
+
+
+          </div>
+
+        </div>
+
       </div>
-
     </div>
-
+    <div class="col-sm-2 mt-2"></div>
   </div>
 
 

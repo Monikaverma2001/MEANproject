@@ -208,7 +208,10 @@ app.post('/mentorview',function(req,res){
       })
 });
 
+app.get('/addfaculity',(req,res)=>{
+  res.render(__dirname+'/public/views/addfaculity.html')
 
+})
 app.get("/update/:id", async (req, res) => {
   var id=req.params.id;
   id=id.slice(1, id.length);
