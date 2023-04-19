@@ -76,11 +76,12 @@
 <style>
   h1 {
     text-align: center;
-    color: red;
+    color: rgb(0, 0, 0);
+    font-size: medium;
   }
 
   nav {
-    background-color: green;
+    background-color: rgb(255, 232, 232);
   }
   body{
     font-size: smaller;
@@ -90,8 +91,8 @@
 <body>
   
   <div class="row">
-    <div class="col-sm-2 mt-2"></div>
-    <div class="col-sm-8  ">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10  ">
       <div >
         <img src="./images/gndecnav.png" alt="" style="width:80%;" class="rounded-pill">
         </div>
@@ -134,21 +135,10 @@
 
           <div class="col-sm-3 mt-2">
             <div>
-              <iframe src="./views/events.html" height="200">
+              <iframe src="./views/events.html" height="400px">
                 Alternative text for browsers that do not understand IFrames.
               </iframe>
-              <% if(events!=null) { %>
-                <ul>
-                  <% events.forEach(function(item){ %>
-                    <li>
-                      <%= events.title %>
-                        <form action="">
-                          <button>delete</button>
-                        </form>
-                    </li>
-                    <% }) %>
-                </ul>
-                <% } %>
+              
             </div>
           </div>
 
@@ -248,10 +238,26 @@
             </div>
           </div>
 
-          <div class="col-sm-1">
+          <div class="col-sm-3">
 
 
-            <a href="/faculity">get faculity</a>
+            <h6 style="text-align: center;">IT DEPARTMENT EVENTS</h6>
+                <% if(events!=null) { %>
+                <ul>
+                  <% events.forEach(function(item){ %>
+                    <li style="display: inline-fle;">
+                      <%= item.title %>
+                      <%= item.discription %>
+                      <%= item.start  %>
+                      <%= item.end %>
+                        <form action="/eventdelete" method="post">
+                          <input type="text" name="id" value="<%= item.id %>" style="display: none;">
+                          <button>delete</button>
+                        </form>
+                    </li>
+                    <% }) %>
+                </ul>
+                <% } %>
 
 
           </div>
@@ -260,7 +266,7 @@
 
       </div>
     </div>
-    <div class="col-sm-2 mt-2"></div>
+    <div class="col-sm-0 mt-2"></div>
   </div>
 
 
