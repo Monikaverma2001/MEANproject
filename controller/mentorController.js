@@ -2,19 +2,47 @@ var mongoose = require('mongoose');
 var db = require ( '../config/db' );
 const Student = require('../models/student');
 console . log ( "connecting--" , db );
+const path = require('path');
+var fs = require('fs');
+var multer = require('multer');
 
-exports.insertstudent=function(req,res)
-{
-   const student= new Student({
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+ 
+var upload = multer({ storage: storage });
+exports.insertstudent=function(req, res, next) {
+ 
+            var obj = {
+                urn:req.body.urn,
             name: req.body.name,
              phone:req.body.phone,
              semester:req.body.semester,
                comment:req.body.comment,
-               mentor:req.body.mentor
-           
-           });
-          student.save();
-           res.redirect('/mentorview')
+               mentor:req.body.mentor,
+                img: {
+                    data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+                    contentType: 'image/png'
+                }
+            }
+            Student.create(obj)
+            .then ((err, item) => {
+                if (err) {
+                  console.log("kuch error hai");
+                    console.log(err);
+                }
+                else {
+                    // item.save();
+                    
+                    res.redirect('/mentorview');
+                }
+            });
+          
     
 }
 ;

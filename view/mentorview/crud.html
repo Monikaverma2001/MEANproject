@@ -31,27 +31,40 @@
         <thead>Student details</thead> 
     <table class="table ">
      <tr >
+        <th>Id</th>
        <th>name</th>
        <th>phone</th>
        <th>mentor</th>
        <th>semester</th>
+       
+       <th>Activity Performed</th>
      </tr>
     <% name2.forEach(function(item){ %>
     <tr>
-    
+       <td><% if(item.img.data!=null) { %><img width="200px"
+        src="data:image/<%=item.img.contentType%>;base64,
+                <%=item.img.data.toString('base64')%>"
+    ></td><% } %>
+    <td><%=item.urn %></td>
      <td><%= item.name%></td>
      <td><%= item.phone%></td>
      <td><%= item.mentor%></td>
      <td><%= item.semester%></td>
-    
+     <td><%= item.comment%></td>
+<form action="/savecomment/:<%= item.id %>" method="POST">
+    <td><input type="text" name="comment" required></td>
+    <td><button type="submit">Add Activity</button></td>
+</form>
     </tr>
     <% }) %>
     </table>
     <% } %>
       </div>
       <h1>ADD STUDENT</h1>
-      <form action="/student/save" method="POST" >
-       
+      <form action="/student/save" method="POST" enctype="multipart/form-data">
+        
+       <input type="number" placeholder="enter university rollnumber" name="urn">
+       <input type="file" id="image" name="image" value="" required>
         <input type="text" placeholder="username" name="name">
         <input type="number" placeholder="phonenumber" name="phone"><br>
         <input type="number" placeholder="semster" name="semester" min="1" max="8" step="1">

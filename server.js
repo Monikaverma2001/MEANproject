@@ -14,6 +14,20 @@ LocalStrategy = require("passport-local"),
         require("passport-local-mongoose")
       
 
+        const path = require('path');
+        var fs = require('fs');
+        var multer = require('multer');
+        const imgSchema = require('./models/model');
+        var storage = multer.diskStorage({
+            destination: (req, file, cb) => {
+                cb(null, 'uploads')
+            },
+            filename: (req, file, cb) => {
+                cb(null, file.fieldname + '-' + Date.now())
+            }
+        });
+         
+        var upload = multer({ storage: storage });
 
 
 const port = 8000;
@@ -66,6 +80,7 @@ app.get('/faculity', async (req, res) => {
     
     });
 });
+
 app.get('/student', async (req, res) => {
   var items=Student.find({}).then(function(FoundItems){
     var mentor=Faculity.find({position:true}).then(function(i){
@@ -122,12 +137,6 @@ app.use(require("express-session")({
   saveUninitialized: false
 }));
 
-app.use(passport.initialize());
-app.use(passport.session());
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) return next();
-  res.redirect("/login");
-}
 
 
 const hodController=require('./controller/hodController')
@@ -135,7 +144,7 @@ const mentorController=require('./controller/mentorController')
 
 
 app.post('/save',hodController.insertfaculity);
-app.post('/student/save', mentorController.insertstudent)
+
 app.post('/delete',hodController.deletefaculity);
 app.post('/student/delete',mentorController.deletestudent);
 app.get('/student/search',mentorController.searchAll);
@@ -209,6 +218,7 @@ app.post('/mentorview',function(req,res){
   var event=Event.find({}).then(function(events){
   var items=Student.find({semester:sem}).then(function(FoundItems){
     var mentor=Faculity.find({position:false}).then(function(i){
+      
       res.render(__dirname+'/view/mentorview/crud.html',{name2:FoundItems,mentor:i,sname:null})
 
     })
@@ -262,6 +272,80 @@ app.post('/show',function(req,res){
     var name=req.body.mentor;
     console.log(name);
   })
-const path = require('path');
+
+  app.post('/savecomment/:id',async (req, res) => {
+    var id=req.params.id;
+    id=id.slice(1, id.length);
+   
+    var comment=req.body.comment;
+    
+     var pre=Student.findById(new objectId(id)).comment;console.log(pre);
+     comment=pre+comment; 
+    Student.findByIdAndUpdate(new objectId(id),{comment:comment}).then(()=>{
+     
+      
+    }).catch((err)=>{
+      console.log("kuch err hai ");
+      console.log(err);
+    });
+  }
+    )
+
+app.get('/imageadd',(req,res)=>
+{
+  imgSchema.find({})
+  .then((data, err)=>{
+      if(err){
+          console.log(err);
+      }
+      res.render(__dirname+'/view/images.html',{items: data})
+  })
+ 
+})
+app.post('/imageadd', upload.single('image'), (req, res, next) => {
+ 
+  var obj = {
+      name: req.body.name,
+      desc: req.body.desc,
+      img: {
+          data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+          contentType: 'image/png'
+      }
+  }
+  imgSchema.create(obj)
+  .then ((err, item) => {
+      if (err) {
+        console.log("kuch error hai");
+          console.log(err);
+      }
+      else {
+          // item.save();
+          
+          res.redirect('/');
+      }
+  });
+});
+
+
+app.post('/student/save', upload.single('image'), (req, res, next)=> {
+ 
+  var obj = {
+      urn:req.body.urn,
+  name: req.body.name,
+   phone:req.body.phone,
+   semester:req.body.semester,
+     comment:req.body.comment,
+     mentor:req.body.mentor,
+      img: {
+          data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+          contentType: 'image/png'
+      }
+  }
+  Student.create(obj)
+  .then ((err, item) => {
+     res.redirect('/mentorview');
+     
+  });
+})
 app.use(express.static(path.join(__dirname, 'public')))
-app.listen(port, ()=> console.log(`Example app listening on port http://localhost:${port}/`));
+app.listen(port, ()=> console.log(`Example app listening on port http://localhost:${port}/imageadd`));
