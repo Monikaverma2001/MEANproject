@@ -23,6 +23,9 @@
     td {
         text-align: center;
     }
+    ul li{
+        list-style: none;
+    }
 </style>
 
 <body>
@@ -38,71 +41,37 @@
           <ul class="navbar-nav m-2">
           
           </ul>
-          
+          <br><br>
           <form action="/mentorview" method="POST"  style="float:right">
             <input type="number" placeholder="semster" name="semester" min="1" max="8" step="1">
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
         </div>
       </nav>
+      <div class=" mt-16">
     <div class="row">
         <div class="col-sm-2">
-            <div><h6 style="text-align: center;">IT DEPARTMENT EVENTS</h6>
+            <h4 style="text-align: center;">IT DEPARTMENT EVENTS</h4>
+            <div>
                 <% if(events!=null) { %>
                   <ul>
                     <% events.forEach(function(item){ %>
-                      <li style="display: inline-fle;">
+                      <li style="text-align: left;">
                         <%= item.title %>
                           <%= item.discription %>
                             <%= item.date %>
                            
-                      </li>
+                      </li><br><br>
                       <% }) %>
                   </ul>
                   <% } %>
     </div>
         </div>
-        <div class="col-sm-6 ">
-
-
-        </div>
-
-
-
-        <div class="col-sm-4">
-            <div>
-                <div style="border: 2px solid black;border-radius: 10px;">
-                    <div style="margin:2px 2px">
-                        <% if(msgs!=null){%>
-                            <% msgs.forEach(function(item){ %>
-
-
-                                <div style="margin: 5px 5px; border:1px solid grey;padding: 2px 2px;">
-                                    <div style="display:inline;">
-                                        <%= item.msg%>
-                                    </div>
-                                    <br>
-                                    <div style="display:inline;">
-                                        <%= item.date%>
-                                    </div>
-                                </div>
-
-                                <% })} %>
-
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <h1>SEARCH STUDENT</h1>
-   
-   <br><br><br>
+        <div class="col-sm-7">
+     
     <div id="FoundItems">
         <% if(name2!=null) { %>
-            <thead>Student details</thead>
+            <h1>Student details</h1>
             <table class="table ">
                 <tr>
                     <th>Id</th>
@@ -141,7 +110,41 @@
                     </tr>
                     <% }) %>
             </table>
-            <% } %>
+            <% } %> </div>
+    
+
+        </div>
+
+
+
+        <div class="col-sm-3">
+            <h1>MESSEGES</h1>
+            <div>
+                <div style="border: 2px solid black;border-radius: 10px;">
+                    <div style="margin:2px 2px">
+                        <% if(msgs!=null){%>
+                            <% msgs.forEach(function(item){ %>
+
+
+                                <div style="margin: 5px 5px; border:1px solid grey;padding: 2px 2px;">
+                                    <div style="display:inline;">
+                                        <%= item.msg%>
+                                    </div>
+                                    <br>
+                                    <div style="display:inline;">
+                                        <%= item.date%>
+                                    </div>
+                                </div>
+
+                                <% })} %>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     
     <a href="/student">get student</a>
