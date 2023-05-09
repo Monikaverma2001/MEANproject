@@ -29,8 +29,8 @@
 
                                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">SAVE NEW FACULITY</p>
                                     
-                                    <form action="/save" method="POST" class="form-control">
-
+                                    <form action="/save" method="POST" class="form-control"  enctype="multipart/form-data">
+                                        <input type="file" id="image" name="image" value="" required><br><br>
                                         <input type="text" placeholder="username" name="name" class="form-control" required><br>
                                         <input type="text" placeholder="password" name="password" class="form-control" required><br>
                                         <input type="number" placeholder="phone number" name="phone" class="form-control" required><br>

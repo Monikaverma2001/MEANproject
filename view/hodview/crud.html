@@ -71,7 +71,7 @@
   }
   h1{
     text-align: center;
-  }
+  } 
 </style-->
 <style>
   h1 {
@@ -83,20 +83,22 @@
   nav {
     background-color: rgb(255, 232, 232);
   }
-  body{
+
+  body {
     font-size: smaller;
   }
 </style>
 
 <body>
-  
+
+
   <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-10  ">
-      <div >
+      <div>
         <img src="./images/gndecnav.png" alt="" style="width:80%;" class="rounded-pill">
-        </div>
-      <nav class="navbar navbar-expand-sm "style="width:100%;">
+      </div>
+      <nav class="navbar navbar-expand-sm " style="width:100%;">
         <div class="container-fluid">
           <ul class="navbar-nav m-2">
             <a class="navbar-brand m-2" href="#">
@@ -119,17 +121,19 @@
             </li>
           </ul>
           <form action="/searchByName " class="d-flex" method="POST">
-            <input type="text" name="name" class=" me-2" placeholder="getStudent" style="width:20%;border-radius: 10px ;">
+            <input type="text" name="name" class=" me-2" placeholder="getStudent"
+              style="width:20%;border-radius: 10px ;">
             <button type="submit" class="btn btn-primary">Search</button>
           </form>
-          <form action="/faculityview " class="d-flex" method="POST">
+          <form action="/faculityview" class="d-flex" method="POST">
             <input class="form-control me-2" type="number" placeholder="semster" name="semester" min="1" max="8"
               step="1">
+            <input type="text" value="<%=name2.id %>">
             <button type="submit" class="btn btn-primary">Search</button>
           </form>
         </div>
       </nav>
-      
+
       <div class=" mt-16">
         <div class="row">
 
@@ -138,7 +142,135 @@
               <iframe src="./views/events.html" height="400px">
                 Alternative text for browsers that do not understand IFrames.
               </iframe>
+
+              <div class="container">
+
+                <div class="row d-flex justify-content ">
+
+                  <div>
+                    <div class="card text-black" style="border-radius: 25px;">
+                      <div class="card-body">
+                        <div class="row justify-content-center">
+                          <div>
+
+                            <p class="text-center h1 fw-bold ">SAVE NEW FACULITY</p>
+
+                            <form action="/save" method="POST" class="form-control" enctype="multipart/form-data">
+                              <input type="file" id="image" name="image" value="" required><br><br>
+                              <input type="text" placeholder="username" name="name" class="form-control" required><br>
+                              <input type="text" placeholder="password" name="password" class="form-control"
+                                required><br>
+                              <input type="number" placeholder="phone number" name="phone" class="form-control"
+                                required><br>
+
+                              <div>
+                                <input type="radio" id="HOD" name="position" value="true" checked>
+                                <label for="HOD">HOD</label>
+                              </div>
+                              <br>
+                              <div>
+                                <input type="radio" id="Mentor" name="position" value="false">
+                                <label for="Mnetor">Mentor</label>
+                              </div>
+                              <button type="submit" class="btn btn-success">add data</button>
+                            </form><br><br><br>
+
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container">
+
+                <div class="row d-flex justify-content ">
+
+                  <div>
+                    <div class="card text-black" style="border-radius: 25px;">
+                      <div class="card-body">
+                        <div class="row justify-content-center">
+                          <div>
+              <h1>UPDATE STUDENT</h1>
+              <form  >
+                  <input type="text" placeholder="username" name="name">
+                  <input type="number" placeholder="phonenumber" name="phone"><br>
+                  <input type="number" placeholder="semster" name="semester" id="semester" min="1" max="8" step="1">
+                  
+                  <input type="text" placeholder="comment" name="comment">
+                  <div  id="i"><% if(mentor!=null) { %>
+                      
+                      <ul>
+                          <label for="mentor">Enter mentor</label>
+                  
+                      <% mentor.forEach(function(item){ %>
+                      <li>
+                          <input type="radio" id="mentor" name="mentor" value="<%= item.name %>"
+                                 checked >
+                          <label for="mentor"><%= item.name%></label>
               
+                      </li>
+                      <% }) %>
+                  </ul>
+                      <% } %>
+                  </div> 
+                  
+                  <button type="submit" >update</button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+              <div class="container">
+
+                <div class="row d-flex justify-content ">
+
+                  <div>
+                    <div class="card text-black" style="border-radius: 25px;">
+                      <div class="card-body">
+                        <div class="row justify-content-center">
+                          <div>
+                            <form action="/student/save" method="POST" enctype="multipart/form-data" class="form-control">
+                              <h1>ADD STUDENT</h1>
+                             
+                              <input type="number" placeholder="enter university rollnumber" name="urn" class="form-control" ><br>
+                              <input type="text" placeholder="username" name="name" class="form-control" ><br>
+                              <input type="number" placeholder="phonenumber" name="phone" class="form-control" ><br>
+                              <input type="number" placeholder="semster" name="semester" class="form-control"  min="1" max="8" step="1"><br>
+                              <input type="text" placeholder="comment" name="comment" class="form-control" ><br>
+                              <div id="i">
+                                <% if(mentor!=null) { %>
+
+                                  <ul>
+                                    <label for="mentor">Enter mentor</label>
+
+                                    <% mentor.forEach(function(item){ %>
+                                      <li>
+                                        <input type="radio" id="mentor" name="mentor" value="<%= item.name %>" checked>
+                                        <label for="mentor">
+                                          <%= item.name%>
+                                        </label>
+
+                                      </li>
+                                      <% }) %>
+                                  </ul>
+                                  <% } %>
+                              </div> <button type="submit"class="btn btn-success">add data</button>
+                            </form>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -155,6 +287,7 @@
                       <th>phone</th>
                       <th>mentor</th>
                       <th>semester</th>
+                      <th>operation</th>
                     </tr>
                     <% name2.forEach(function(item){ %>
                       <tr>
@@ -173,7 +306,17 @@
                         <td>
                           <%= item.semester%>
                         </td>
-
+                        <td>
+                          <form action="/studelete" method="POST" style="display:inline-flex;">
+                            <input type="text" name="id" value="<%=item.id%>" style="display: none;">
+                            <button value="submit" class="btn btn-danger">delete</button>
+                          </form>
+                        </td>
+                        <td>
+                          <form action="/update/:<%= item.id %>" style="display:inline-flex;">
+                            <button type="submit" class="btn btn-success">edit</button>
+                          </form>
+                        </td>
                       </tr>
                       <% }) %>
                   </table>
@@ -186,7 +329,7 @@
                 <form action="/addfaculity" method="GET" style="text-align:end;">
                   <button type="submit" class="btn btn-info">add facultiy</button>
                 </form>
-                <form action="/delete" method="POST">
+               
                   <div id="FoundItems">
 
                     <% if(name!=null) { %>
@@ -196,6 +339,7 @@
                         <tbody>
                           <tr>
                             <th>SNo.</th>
+                            <th>PHOTO</th>
                             <th>FACULITY NAME</th>
                             <th>FACULITY PHONE</th>
                             <th>FACULITY POSITION</th>
@@ -209,26 +353,33 @@
                                 <%= i++ %>
                               </td>
                               <td>
-                                <%= item.name%>
+                                <% if(item.img.data!=null) { %><img width="100px" src="data:image/<%=item.img.contentType%>;base64,
+                                        <%=item.img.data.toString('base64')%>" alt="image">
                               </td>
-                              <td>
-                                <%= item.phone%>
-                              </td>
-                              <% if(item.position=="true" ) { %>
-                                <td> HOD</td>
-                                <%} else { %>
-                                  <td> Mentor</td>
-                                  <%} %>
-                                    <td>
-                                      <form action="/delete:<%= item.id %>" method="POST" style="display:inline-flex;">
-
-                                        <button value="submit" class="btn btn-danger">delete</button>
-                                      </form></td>
+                              <% } %>
+                                <td>
+                                  <%= item.name%>
+                                </td>
+                                <td>
+                                  <%= item.phone%>
+                                </td>
+                                <% if(item.position=="true" ) { %>
+                                  <td> HOD</td>
+                                  <%} else { %>
+                                    <td> Mentor</td>
+                                    <%} %>
                                       <td>
-                                      <form action="/update/:<%= item.id %>" style="display:inline-flex;">
-                                        <button type="submit" class="btn btn-success">edit</button>
-                                      </form>
-                                    </td>
+                                        <form action="/delete:<%= item.id %>" method="POST"
+                                          style="display:inline-flex;">
+
+                                          <button value="submit" class="btn btn-danger">delete</button>
+                                        </form>
+                                      </td>
+                                      <td>
+                                        <form action="/update/:<%= item.id %>" style="display:inline-flex;">
+                                          <button type="submit" class="btn btn-success">edit</button>
+                                        </form>
+                                      </td>
                             </tr>
                             <% }) %>
                         </tbody>
@@ -239,25 +390,58 @@
           </div>
 
           <div class="col-sm-3">
-
-
+            
+            <div  style="text-align: center; margin :20px 10px"> <a href="" style="text-decoration: none;" > <button class="btn btn-primary" > NEW SEMESTER</button></a>
+            </div>
+                       <div>
+              <h1>SEND MESSEGE</h1>
+              <div style="border: 2px solid black;border-radius: 10px;">
+                <div style="margin:2px 2px">
+                <% if(msgs!=null){%>
+                  <% msgs.forEach(function(item){ %>
+                   
+                        
+                        <div style="margin: 5px 5px; border:1px solid grey;padding: 2px 2px;">
+                          <%= item.msg%>
+                         <form action="/msgdelete" method="post">
+                            <input type="text" name="id" value="<%= item.id %>" style="display: none;">
+                            <button class="btn btn-danger " >delete</button>
+                          </form>
+                          <%= item.date%>
+                        </div>
+                       
+                    <% })} %>
+                
+                
+                
+                </div>
+                <div style="text-align:center;margin: 5px 5px;">
+                  <form action="/addmsg" style="text-align: center;" method="POST">
+                    <input type="text" placeholder="messege" name="msgs" maxlength="50" required>
+                  <button class="btn btn-primary" type="submit">send</button>
+                </form>
+                </div>
+              </div>
+            </div>
             <h6 style="text-align: center;">IT DEPARTMENT EVENTS</h6>
-                <% if(events!=null) { %>
-                <ul>
-                  <% events.forEach(function(item){ %>
-                    <li style="display: inline-fle;">
-                      <%= item.title %>
+            <% if(events!=null) { %>
+              <ul>
+                <% events.forEach(function(item){ %>
+                  <li style="display: inline-fle;">
+                    <%= item.title %>
                       <%= item.discription %>
-                      <%= item.start  %>
-                      <%= item.end %>
-                        <form action="/eventdelete" method="post">
-                          <input type="text" name="id" value="<%= item.id %>" style="display: none;">
-                          <button>delete</button>
-                        </form>
-                    </li>
-                    <% }) %>
-                </ul>
-                <% } %>
+                        <%= item.start %>
+                          <%= item.end %>
+                          <br>
+                          <%= item.date %>
+                            <form action="/eventdelete" method="post">
+                              <input type="text" name="id" value="<%= item.id %>" style="display: none;">
+                              <button>delete</button>
+                            </form>
+                  </li>
+                  <% }) %>
+              </ul>
+              <% } %>
 
 
           </div>

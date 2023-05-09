@@ -8,10 +8,6 @@ console.log("ok");
 // set our port
 var mongoose = require('mongoose');
 
-const passport = require("passport"),
-LocalStrategy = require("passport-local"),
-    passportLocalMongoose = 
-        require("passport-local-mongoose")
       
 
         const path = require('path');
@@ -36,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.engine('html', require('ejs').renderFile);
 var db = require ( './config/db' );
 const Faculity = require('./models/faculity');
+const Msg= require('./models/msg');
 const Event = require('./models/events');
 
 console . log ( "connecting--" , db );
@@ -94,25 +91,29 @@ app.post('/login', async (req, res) => {
   let name=req.body.name;
   let password=req.body.password;
   //var position=Faculity.findOne(name).position;
-  Faculity.find({name,password}).then(function(FoundItems){
+  Faculity.findOne({name}).then(function(FoundItems){
+    console.log(FoundItems.position)
+    var position=FoundItems.position;
+    var id=FoundItems.id;
         if(FoundItems==null)
         {
           res.sendFile(__dirname + '/view/home.html')
         } 
-        else   
+        else   if(FoundItems.password===password)
         {
-          var v=Object.values(FoundItems);
-          var position=(v['0']['position']);
-
+          
          if(position=="true")
          {
-          
-              res.redirect('/faculityview')
+         
+              res.redirect(`/faculityview`)
          }
          else{
-          res.redirect('/mentorview')
+          res.redirect(`/mentorview/:${id}`)
          }
          
+        }
+        else{
+          res.send("enter a valid password");
         }
   
   });
@@ -143,7 +144,7 @@ const hodController=require('./controller/hodController')
 const mentorController=require('./controller/mentorController')
 
 
-app.post('/save',hodController.insertfaculity);
+//app.post('/save',hodController.insertfaculity);
 
 app.post('/delete',hodController.deletefaculity);
 app.post('/student/delete',mentorController.deletestudent);
@@ -165,13 +166,19 @@ app.post('/delete:id',(req,res)=>
   });
 });
 app.get('/faculityview',function(req,res){
+  console.log(req.params.name);
   var sem=req.body.semester;
  var event=Event.find({}).then(function(events){
   var items=Faculity.find({}).then(function(FoundItems){
     var it=Student.find({semester:sem}).then(function(i)
     {
-      res.render(__dirname+'/view/hodview/crud.html',{name:FoundItems,name2:i,events:events})
-
+      var msg=Msg.find({}).sort({_id:-1}).limit(10).then(function(msg){
+        var mentor=Faculity.find({position:false}).then(function(m){
+          res.render(__dirname+'/view/hodview/crud.html',{msgs:msg,name:FoundItems,name2:i,events:events,mentor:m})
+  
+        })
+      })
+      
     })
       })
     });
@@ -188,28 +195,41 @@ app.post('/searchByName',function(req,res){
     })
       })
     })
-  
+   
 });
 app.post('/faculityview',function(req,res){
   var sem=req.body.semester;
+  console.log(req.params.id);
   var na=req.body.name;
   var event=Event.find({}).then(function(events){
   var items=Faculity.find({}).then(function(FoundItems){
     var it=Student.find({semester:sem}).then(function(i)
     {
-      res.render(__dirname+'/view/hodview/crud.html',{name:FoundItems,name2:i,events:events})
-
+      var msg=Msg.find({}).sort({_id:-1}).limit(10).then(function(msg){
+        var mentor=Faculity.find({position:false}).then(function(m){
+          res.render(__dirname+'/view/hodview/crud.html',{msgs:msg,name:FoundItems,name2:i,events:events,mentor:m})
+  
+        })
+      })
+     
+      
     })
   })
 })
 });
-app.get('/mentorview',function(req,res){
+app.get('/mentorview/:id',function(req,res){
+  var id=req.params.id;
+id= id.slice(1,id.length);
+  var m=Faculity.findOne({id:id});
+ // console.log(m);
   var event=Event.find({}).then(function(events){
   var items=Student.find({}).then(function(FoundItems){
     var mentor=Faculity.find({position:false}).then(function(i){
-      res.render(__dirname+'/view/mentorview/crud.html',{name2:null,mentor:i,events:events})
+      var msg=Msg.find({}).sort({_id:-1}).limit(10).then(function(msg){
+      res.render(__dirname+'/view/mentorview/crud.html',{msgs:msg,name2:null,mentor:i,events:events,m:id})
 
     })
+  })
       })
     })
 });
@@ -218,10 +238,11 @@ app.post('/mentorview',function(req,res){
   var event=Event.find({}).then(function(events){
   var items=Student.find({semester:sem}).then(function(FoundItems){
     var mentor=Faculity.find({position:false}).then(function(i){
-      
-      res.render(__dirname+'/view/mentorview/crud.html',{name2:FoundItems,mentor:i,sname:null})
+      var msg=Msg.find({}).sort({_id:-1}).limit(10).then(function(msg){
+      res.render(__dirname+'/view/mentorview/crud.html',{msgs:msg,name2:FoundItems-,mentor:i,events:events,m:null})
 
     })
+  })
       })
     })
 });
@@ -232,18 +253,45 @@ app.post('/addevent',(req,res)=>{
       discription: req.body.discription,
       start: req.body.start,
        end: req.body.end,
+       date:Date()
     });
     events.save();
     
+})
+
+app.post('/addmsg',(req,res)=>{
+ 
+  const msg= new Msg({
+   msg: req.body.msgs,
+   date:new Date()
+  });
+  msg.save();
+  res.redirect('/faculityview')
 })
 app.get('/addfaculity',(req,res)=>{
   res.render(__dirname+'/public/views/addfaculity.html')
 
 })
+app.post('/studelete',(req,res)=>{
+  var id=req.body.id;
+  
+   Student.findByIdAndDelete(new objectId(id)).then(()=>{
+       res.redirect('/faculityview')
+;  })
+  // Event.findByIdAndDelete({name});
+})
 app.post('/eventdelete',(req,res)=>{
   var id=req.body.id;
   
    Event.findByIdAndDelete(new objectId(id)).then(()=>{
+       res.redirect('/faculityview')
+;  })
+  // Event.findByIdAndDelete({name});
+})
+app.post('/msgdelete',(req,res)=>{
+  var id=req.body.id;
+  
+   Msg.findByIdAndDelete(new objectId(id)).then(()=>{
        res.redirect('/faculityview')
 ;  })
   // Event.findByIdAndDelete({name});
@@ -326,7 +374,24 @@ app.post('/imageadd', upload.single('image'), (req, res, next) => {
   });
 });
 
-
+app.post('/save', upload.single('image'), (req, res, next)=> {
+ 
+  var obj={
+    img: {
+      data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+      contentType: 'image/png'
+  },
+    name: req.body.name,
+     password:req.body.password,
+    position:req.body.position,
+    phone:req.body.phone
+  };
+  Faculity.create(obj)
+  .then ((err, item) => {
+     res.redirect('/faculityview');
+     
+  });
+})
 app.post('/student/save', upload.single('image'), (req, res, next)=> {
  
   var obj = {
@@ -348,4 +413,4 @@ app.post('/student/save', upload.single('image'), (req, res, next)=> {
   });
 })
 app.use(express.static(path.join(__dirname, 'public')))
-app.listen(port, ()=> console.log(`Example app listening on port http://localhost:${port}/imageadd`));
+app.listen(port, ()=> console.log(`Example app listening on port http://localhost:${port}/`));
