@@ -239,7 +239,7 @@ app.post('/mentorview',function(req,res){
   var items=Student.find({semester:sem}).then(function(FoundItems){
     var mentor=Faculity.find({position:false}).then(function(i){
       var msg=Msg.find({}).sort({_id:-1}).limit(10).then(function(msg){
-      res.render(__dirname+'/view/mentorview/crud.html',{msgs:msg,name2:FoundItems-,mentor:i,events:events,m:null})
+      res.render(__dirname+'/view/mentorview/crud.html',{msgs:msg,name2:FoundItems,mentor:i,events:events,m:null})
 
     })
   })
@@ -258,7 +258,21 @@ app.post('/addevent',(req,res)=>{
     events.save();
     
 })
+app.get('/extend',(req,res)=>{
 
+  Student.updateMany(
+    {},
+    {$inc:{semester:1}}
+   ).then(()=>{
+   
+    res.redirect('/faculityview');
+   })
+})
+app.get('/waste',(req,res)=>{
+  Student.deleteMany({semester:{$gt:8}}).then(function(items){
+    res.send(items);
+  })
+})
 app.post('/addmsg',(req,res)=>{
  
   const msg= new Msg({
