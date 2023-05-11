@@ -26,7 +26,7 @@ var mongoose = require('mongoose');
         var upload = multer({ storage: storage });
 
 
-const port = 8000;
+const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.engine('html', require('ejs').renderFile);
@@ -220,27 +220,39 @@ app.post('/faculityview',function(req,res){
 app.get('/mentorview/:id',function(req,res){
   var id=req.params.id;
 id= id.slice(1,id.length);
-  var m=Faculity.findOne({id:id});
+ 
  // console.log(m);
   var event=Event.find({}).then(function(events){
   var items=Student.find({}).then(function(FoundItems){
     var mentor=Faculity.find({position:false}).then(function(i){
       var msg=Msg.find({}).sort({_id:-1}).limit(10).then(function(msg){
-      res.render(__dirname+'/view/mentorview/crud.html',{msgs:msg,name2:null,mentor:i,events:events,m:id})
+        var p=Faculity.findById(new objectId(id)).then(function(p)
+        {
+          
+          res.render(__dirname+'/view/mentorview/crud.html',{msgs:msg,name2:null,mentor:i,events:events,m:p})
 
+        })
+      
     })
   })
       })
     })
 });
-app.post('/mentorview',function(req,res){
+app.post('/mentorview/:id',function(req,res){
+  var id=req.params.id;
+  id= id.slice(1,id.length);
+    var m=Faculity.findOne({id:id});
   var sem=req.body.semester;
   var event=Event.find({}).then(function(events){
   var items=Student.find({semester:sem}).then(function(FoundItems){
     var mentor=Faculity.find({position:false}).then(function(i){
       var msg=Msg.find({}).sort({_id:-1}).limit(10).then(function(msg){
-      res.render(__dirname+'/view/mentorview/crud.html',{msgs:msg,name2:FoundItems,mentor:i,events:events,m:null})
+        var p=Faculity.findById(new objectId(id)).then(function(p)
+        {
+          
+      res.render(__dirname+'/view/mentorview/crud.html',{msgs:msg,name2:FoundItems,mentor:i,events:events,m:p})
 
+    })
     })
   })
       })
@@ -256,7 +268,7 @@ app.post('/addevent',(req,res)=>{
        date:Date()
     });
     events.save();
-    
+    res.redirect('/faculityview')
 })
 app.get('/extend',(req,res)=>{
 
@@ -270,7 +282,7 @@ app.get('/extend',(req,res)=>{
 })
 app.get('/waste',(req,res)=>{
   Student.deleteMany({semester:{$gt:8}}).then(function(items){
-    res.send(items);
+    res.redirect('/faculityview')
   })
 })
 app.post('/addmsg',(req,res)=>{
@@ -323,6 +335,24 @@ app.post("/edit/:id", async (req, res) => {
   console.log(id);
   var ph=req.body.phone;
   Faculity.findByIdAndUpdate(new objectId(id),{phone:ph}).then(()=>{
+    res.redirect('/faculityview');
+    
+  }).catch((err)=>{
+    console.log("kuch err hai ");
+    console.log(err);
+  });
+});
+app.post("/stuedit", async (req, res) => {
+  var id=req.body.urn;
+ 
+   
+var name= req.body.name;
+var phone=req.body.phone;
+var semester=req.body.semester;
+ var comment=req.body.comment;
+  var mentor=req.body.mentor
+  
+  Student.findOneAndUpdate({urn:id},{name:name,phone:phone,semester:semester,comment:comment}).then(()=>{
     res.redirect('/faculityview');
     
   }).catch((err)=>{
@@ -415,14 +445,11 @@ app.post('/student/save', upload.single('image'), (req, res, next)=> {
    semester:req.body.semester,
      comment:req.body.comment,
      mentor:req.body.mentor,
-      img: {
-          data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-          contentType: 'image/png'
-      }
+     
   }
   Student.create(obj)
   .then ((err, item) => {
-     res.redirect('/mentorview');
+     res.redirect('/faculityview');
      
   });
 })
