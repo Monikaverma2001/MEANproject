@@ -17,8 +17,23 @@
     display: none;
   }
 }
+div{
+  text-align: center;
+  
+}
+#intro{
+  text-align: center;
+margin: 0 10%;
+ list-style: none;
+ color:rgb(0, 0, 0);
+}
+#intro{
+  background-color: rgb(196, 233, 215);
+}
+
     </style>
-</body>
+   
+<body  >
 <header>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
@@ -56,7 +71,69 @@
       </div>
     </nav>
     <!-- Navbar -->
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="width:80%;"">
+
+  <div id="intro">
+      
+    <div ng-app="">
+    
+      <form>
+        RESPONSIBILITIES OF <br>
+        <input type="radio" ng-model="myVar" value="mentor">Mentor
+        <input type="radio" ng-model="myVar" value="mentee">Mentee
+     
+      </form>
+      
+      <div ng-switch="myVar">
+        <div ng-switch-when="mentor">
+    <ul>
+          <li>Guidance and Support: A mentor is responsible for providing guidance and support to their mentee. They should help the mentee navigate challenges, provide advice, and share their knowledge and experience to help the mentee grow both personally and professionally.
+          </li>
+         <li> Role Modeling: A mentor should serve as a positive role model for their mentee. They should demonstrate desirable qualities, behaviors, and values through their actions, serving as an example for the mentee to emulate.
+        </li> 
+          <li>Knowledge Sharing: A mentor should share their knowledge and expertise with their mentee. They should provide insights, resources, and practical advice to help the mentee develop new skills, expand their understanding, and make informed decisions.
+          </li>
+         <li> Goal Setting and Planning: A mentor should assist the mentee in setting goals and creating a plan to achieve them. They can help the mentee identify their strengths and areas for improvement, establish clear objectives, and develop strategies to reach their targets.
+        </li>
+          <li>Feedback and Evaluation: A mentor should provide constructive feedback to their mentee. They should offer honest assessments of the mentee's progress, highlight areas of improvement, and acknowledge successes. This feedback helps the mentee learn and grow.
+          </li>
+         <li> Networking and Connections: A mentor should help the mentee build their professional network and establish connections in relevant fields or industries. They can introduce the mentee to valuable contacts, provide recommendations, or offer opportunities for networking.
+        </li>
+          <li>Confidentiality and Trust: A mentor should maintain confidentiality and establish a trusted relationship with the mentee. They should create a safe and non-judgmental space where the mentee feels comfortable discussing their challenges, aspirations, and concerns.
+          </li>
+         <li> Empowerment and Empathy: A mentor should empower their mentee to take ownership of their development and make their own decisions. They should be empathetic and understanding, providing emotional support and encouragement when needed.
+        </li>    </ul>
+          
+    
+        </div>
+        <div ng-switch-when="mentee">
+    
+    <ul>
+    
+        <li>  Active Participation: A mentee should actively participate in the mentoring relationship. This involves being engaged, responsive, and committed to the mentoring process. Actively seeking guidance, asking questions, and being open to feedback are essential aspects of being an engaged mentee.
+        </li>
+    <li>Clear Goals and Objectives: A mentee should have clear goals and objectives for their personal or professional development. They should take the initiative to articulate their goals to the mentor and work collaboratively to establish a plan for achieving those goals.
+    </li>
+    <li>Openness to Feedback: A mentee should be open to receiving feedback from their mentor. They should actively listen, reflect on the feedback provided, and be willing to make changes or adjustments based on the advice and guidance received. It's important to approach feedback with an open mind and a willingness to learn and grow.
+    </li>
+    <li>Taking Initiative: A mentee should take initiative in their own development. This involves actively seeking opportunities for growth, learning, and skill development. They should be proactive in identifying areas where they need support or additional knowledge and take responsibility for seeking out resources, training, or experiences to fill those gaps.
+    </li>
+    <li>Accountability and Follow-through: A mentee should be accountable for their commitments and follow through on agreed-upon actions. They should take responsibility for their own progress and actively work towards achieving their goals. Demonstrating reliability and punctuality in meeting commitments shows respect for the mentor's time and effort.
+    </li>
+    <li>Self-Reflection and Self-Evaluation: A mentee should engage in self-reflection and self-evaluation of their progress. They should regularly assess their own strengths, weaknesses, and areas for improvement. This introspective approach helps mentees gain self-awareness and make informed decisions about their development.
+    </li>
+    </ul>
+    
+    
+    
+    
+    
+        
+        </div>
+       
+      </div>
+        
+      </div></div>
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="width:80%;">
       <div class="carousel-inner" style="text-align: center;margin:10px 200px">
         <div class="carousel-item active">
           <img class="d-block w-100" src="/images/first.jpeg" alt="First slide">
@@ -78,6 +155,11 @@
       </a>
     </div>
     <!-- Jumbotron -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+
+
     <div class="p-5 text-center bg-light">
       <h1 class="mb-3">Heading</h1>
       <h4 class="mb-3">Subheading</h4>
@@ -85,6 +167,7 @@
     </div>
     <!-- Jumbotron -->
   </header>
+</body>
 </html>
 
 

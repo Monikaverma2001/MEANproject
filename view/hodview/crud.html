@@ -108,11 +108,12 @@
 
   <script>
     var app = angular.module("myApp", ["ngRoute"]);
+    
     app.config(function ($routeProvider) {
       $routeProvider
         .when("/addstudent", {
           template: '<div>\
-            <form action="/student/save" method="POST" enctype="multipart/form-data"class="form-control">\
+            <form action="/student/save/:<%= id %>" method="POST" enctype="multipart/form-data"class="form-control">\
                               <h1>ADD STUDENT</h1>\
 \
                               <input type="number" placeholder="enter university rollnumber" name="urn"class="form-control"><br>\
@@ -143,15 +144,13 @@
                             </form>\
                           </div>'
         })
-        .when("/updatefac/:id*", {
-          templateUrl:'././views/update.html'
-        })
+        
        
         .when("/updatestudent", {
           template: ' <div>\
                             <h1>UPDATE STUDENT</h1>\
-                            <form action="/stuedit" method="POST" class="form-control">\
-                              <input type="text" placeholder="urn" name="urn" class="form-control"><br>\
+                            <form action="/stuedit/:<%= id %>" method="POST" class="form-control">\
+                              <input type="text" placeholder="urn" name="urn" class="form-control" ><br>\
                               <input type="text" placeholder="username" name="name"class="form-control"><br>\
                               <input type="number" placeholder="phonenumber" name="phone"class="form-control"><br>\
                               <input type="number" placeholder="semster" name="semester" id="semester" min="1" max="8"step="1"class="form-control"><br>\
@@ -180,7 +179,7 @@
                             </form>\
                           </div>'
         })
-        .when("/addevent", {template: '<form action="/addevent" style="text-align: center;" method="POST">\
+        .when("/addevent", {template: '<form action="/addevent/:<%= id %>" style="text-align: center;" method="POST">\
         <div class="form-group row"><label for="title" class="col-sm-2 col-form-label">TITLE</label>\
             <div class="col-sm-10">\
                 <input type="text" name="title" class="form-control" required>\
@@ -209,7 +208,7 @@
     </form>'
     })
         .when("/addmentor", {template: '<div><p class="text-center h1 fw-bold ">SAVE NEW FACULITY</p>\
-          <form action="/save" method="POST" class= "form-control" enctype="multipart/form-data" ><input type="file" id="image" name="image" value="" required><br><br><input type="text" placeholder="username" name="name" class="form-control" required><br><input type="text" placeholder="password" name="password" class="form-control"required><br>\
+          <form action="/save/:<%= id %>" method="POST" class= "form-control" enctype="multipart/form-data" ><input type="file" id="image" name="image" value="" required><br><br><input type="text" placeholder="username" name="name" class="form-control" required><br><input type="text" placeholder="password" name="password" class="form-control"required><br>\
                     <input type="number" placeholder="phone number" name="phone" class="form-control"\
                       required><br> <div> <input type="radio" id="HOD" name="position" value="true" checked>\
                             <label for="HOD">HOD</label>\
@@ -241,7 +240,7 @@
             </li>
            
             <li class="nav-item m-3" >
-          <form action="/faculityview" class="d-flex" method="POST">
+          <form action='/faculityview/:<%= id%>' class="d-flex" method="POST">
             <input class="form-control me-2" type="number" placeholder="semster" name="semester" min="1" max="8"
               step="1">
              
@@ -254,145 +253,7 @@
       <div class=" mt-16">
         <div class="row">
 
-          
-              <!--div class="container">
-
-                <div class="row d-flex justify-content ">
-
-                  <div>
-                    <div class="card text-black" style="border-radius: 25px;">
-                      <div class="card-body">
-                        <div class="row justify-content-center">
-                          <div>
-
-                            <p class="text-center h1 fw-bold ">SAVE NEW FACULITY</p>
-
-                            <form action="/save" method="POST" class="form-control" enctype="multipart/form-data">
-                              <input type="file" id="image" name="image" value="" required><br><br>
-                              <input type="text" placeholder="username" name="name" class="form-control" required><br>
-                              <input type="text" placeholder="password" name="password" class="form-control"
-                                required><br>
-                              <input type="number" placeholder="phone number" name="phone" class="form-control"
-                                required><br>
-
-                              <div>
-                                <input type="radio" id="HOD" name="position" value="true" checked>
-                                <label for="HOD">HOD</label>
-                              </div>
-                              <br>
-                              <div>
-                                <input type="radio" id="Mentor" name="position" value="false">
-                                <label for="Mnetor">Mentor</label>
-                              </div>
-                              <button type="submit" class="btn btn-success">add data</button>
-                            </form><br><br><br>
-
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div-->
-              <!--
-              <div class="container">
-
-                <div class="row d-flex justify-content ">
-
-                  <div>
-                    <div class="card text-black" style="border-radius: 25px;">
-                      <div class="card-body">
-                        <div class="row justify-content-center">
-                          <div>
-                            <h1>UPDATE STUDENT</h1>
-                            <form>
-                              <input type="text" placeholder="username" name="name">
-                              <input type="number" placeholder="phonenumber" name="phone"><br>
-                              <input type="number" placeholder="semster" name="semester" id="semester" min="1" max="8"
-                                step="1">
-
-                              <input type="text" placeholder="comment" name="comment">
-                              <div id="i">
-                                <% if(mentor!=null) { %>
-
-                                  <ul>
-                                    <label for="mentor">Enter mentor</label>
-
-                                    <% mentor.forEach(function(item){ %>
-                                      <li>
-                                        <input type="radio" id="mentor" name="mentor" value="<%= item.name %>" checked>
-                                        <label for="mentor">
-                                          <%= item.name%>
-                                        </label>
-
-                                      </li>
-                                      <% }) %>
-                                  </ul>
-                                  <% } %>
-                              </div>
-
-                              <button type="submit">update</button>
-                            </form>
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="container">
-
-                <div class="row d-flex justify-content ">
-
-                  <div>
-                    <div class="card text-black" style="border-radius: 25px;">
-                      <div class="card-body">
-                        <div class="row justify-content-center">
-                          <div>
-                            <form action="/student/save" method="POST" enctype="multipart/form-data"
-                              class="form-control">
-                              <h1>ADD STUDENT</h1>
-
-                              <input type="number" placeholder="enter university rollnumber" name="urn"
-                                class="form-control"><br>
-                              <input type="text" placeholder="username" name="name" class="form-control"><br>
-                              <input type="number" placeholder="phonenumber" name="phone" class="form-control"><br>
-                              <input type="number" placeholder="semster" name="semester" class="form-control" min="1"
-                                max="8" step="1"><br>
-                              <input type="text" placeholder="comment" name="comment" class="form-control"><br>
-                              <div id="i">
-                                <% if(mentor!=null) { %>
-
-                                  <ul>
-                                    <label for="mentor">Enter mentor</label>
-
-                                    <% mentor.forEach(function(item){ %>
-                                      <li>
-                                        <input type="radio" id="mentor" name="mentor" value="<%= item.name %>" checked>
-                                        <label for="mentor">
-                                          <%= item.name%>
-                                        </label>
-
-                                      </li>
-                                      <% }) %>
-                                  </ul>
-                                  <% } %>
-                              </div> <button type="submit" class="btn btn-success">add data</button>
-                            </form>
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
-                       </div>
-            </div>
-              </div>
-            </div>
-          </div>
-     -->
+      
           <div class="col-sm-9">
 
             <div>
@@ -430,16 +291,12 @@
                           <%= item.semester%>
                         </td>
                         <td>
-                          <form action="/studelete" method="POST" style="display:inline-flex;">
+                          <form action="/studelete/:<%= id %>" method="POST" style="display:inline-flex;">
                             <input type="text" name="id" value="<%=item.id%>" style="display: none;">
                             <button value="submit" class="btn btn-danger">delete</button>
                           </form>
                         </td>
-                        <td>
-                          <form action="/update/:<%= item.id %>" style="display:inline-flex;">
-                            <button type="submit" class="btn btn-success">edit</button>
-                          </form>
-                        </td>
+                        
                       </tr>
                       <% }) %>
                   </table>
@@ -491,15 +348,15 @@
                                 <%} else { %>
                                   <td> Mentor</td>
                                   <%} %>
+                                  
                                     <td>
-                                      <form action="/delete:<%= item.id %>" method="POST" style="display:inline-flex;">
-
+                                      <form action="/faculityview/:<%= id%>/delete:<%= item.id %>" method="POST" style="display:inline-flex;">
                                         <button value="submit" class="btn btn-danger">delete</button>
                                       </form>
                                     </td>
                                     <td>
-                                      <button class="btn btn-primary"><a href="#!updatefac/:<%= item.id %>">EDIT</a></button>
-                                      <form action="/update/:<%= item.id %>" style="display:inline-flex;">
+                                     
+                                      <form action="/faculityview/:<%= id %>/update/:<%= item.id %>" style="display:inline-flex;">
                                         <button type="submit" class="btn btn-success">edit</button>
                                       </form>
                                     </td>
@@ -511,11 +368,11 @@
                 </div>
             </div>
             <div style="text-align: center;">
-              <button class="btn btn-primary"><a href="#/!">Main</a></button>
-              <button class="btn btn-primary"> <a href="#!addevent">ADD EVENT</a></button>
-              <button class="btn btn-primary"> <a href="#!addstudent">ADD STUDENT</a></button>
-              <button class="btn btn-primary"><a href="#!updatestudent">UPDATE STUDENT</a></button>
-              <button class="btn btn-primary"><a href="#!addmentor">SAVE NEW FACULITY</a></button>
+              <button class="btn btn-primary"><a ng-href="#/!">Main</a></button>
+              <button class="btn btn-primary"> <a ng-href="#!addevent">ADD EVENT</a></button>
+              <button class="btn btn-primary"> <a ng-href="#!addstudent">ADD STUDENT</a></button>
+              <button class="btn btn-primary"><a ng-href="#!updatestudent">UPDATE STUDENT</a></button>
+              <button class="btn btn-primary"><a ng-href="#!addmentor">SAVE NEW FACULITY</a></button>
              
               <div ng-view></div>
             </div>
@@ -542,7 +399,7 @@
 
                       <div style="margin: 5px 5px; border:1px solid grey;padding: 2px 2px;">
                         <%= item.msg%>
-                          <form action="/msgdelete" method="post">
+                          <form action="/msgdelete/:<%= id%>" method="post">
                             <input type="text" name="id" value="<%= item.id %>" style="display: none;">
                             <button class="btn btn-danger ">delete</button>
                           </form>
@@ -555,7 +412,7 @@
 
                 </div>
                 <div style="text-align:center;margin: 5px 5px;">
-                  <form action="/addmsg" style="text-align: center;" method="POST">
+                  <form action="/addmsg/:<%= id%>" style="text-align: center;" method="POST">
                     <input type="text" placeholder="messege" name="msgs" maxlength="50" required>
                     <button class="btn btn-primary" type="submit">send</button>
                   </form>
@@ -568,7 +425,7 @@
 
 
               <div>
-                <form action="/student/save" method="POST" enctype="multipart/form-data" class="form-control">
+                <form action="/student/save/:<%= id %>" method="POST" enctype="multipart/form-data" class="form-control">
                   <h1>ADD STUDENT</h1>
 
                   <input type="number" placeholder="enter university rollnumber" name="urn" class="form-control"><br>
@@ -577,9 +434,14 @@
                   <input type="number" placeholder="semster" name="semester" class="form-control" min="1" max="8"
                     step="1"><br>
                   <input type="text" placeholder="comment" name="comment" class="form-control"><br>
-                  <div id="i">
-                    <% if(mentor!=null) { %>
 
+
+
+              
+                  <div id="i">
+
+                    <% if(mentor!=null) { %>
+                      
                       <ul>
                         <label for="mentor">Enter mentor</label>
 
@@ -629,7 +491,7 @@
                           <%= item.end %>
                             <br>
                             <%= item.date %>
-                              <form action="/eventdelete" method="post">
+                              <form action="/eventdelete/:<%= id%>" method="post">
                                 <input type="text" name="id" value="<%= item.id %>" style="display: none;">
                                 <button>delete</button>
                               </form>

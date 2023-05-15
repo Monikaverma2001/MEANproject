@@ -153,19 +153,23 @@ const mentorController=require('./controller/mentorController')
 
 //app.post('/save',hodController.insertfaculity);
 
-app.post('/delete',hodController.deletefaculity);
+//app.post('/delete',hodController.deletefaculity);
 app.post('/student/delete',mentorController.deletestudent);
 app.get('/student/search',mentorController.searchAll);
 app.post('/searchStudent',mentorController.searchStudent);
 app.post('/searchBysem',mentorController.searchStudentSem);
 
-app.post('/delete:id',(req,res)=>
+app.post('/faculityview/:id/delete:Id',(req,res)=>
 {
+  var Id=req.params.Id;
+  Id=Id.slice(1, Id.length);
   var id=req.params.id;
   id=id.slice(1, id.length);
-  console.log(id);
-  Faculity.findByIdAndDelete(new objectId(id)).then(()=>{
-    res.redirect('/faculityview');
+ console.log(id);
+ console.log(Id);
+  Faculity.findByIdAndDelete(new objectId(Id)).then(()=>{
+    login=id;
+    res.redirect(`/faculityview/:${id}`)
     
   }).catch((err)=>{
     console.log("kuch err hai ");
@@ -183,7 +187,7 @@ app.get('/faculityview/:id',function(req,res){
     {
       var msg=Msg.find({}).sort({_id:-1}).limit(10).then(function(msg){
         var mentor=Faculity.find({position:false}).then(function(m){
-          res.render(__dirname+'/view/hodview/crud.html',{msgs:msg,name:FoundItems,name2:i,events:events,mentor:m})
+          res.render(__dirname+'/view/hodview/crud.html',{msgs:msg,name:FoundItems,name2:null,events:events,mentor:m,id:id})
   
         })
       })
@@ -209,10 +213,12 @@ app.post('/searchByName',function(req,res){
     })
    
 });
-app.post('/faculityview',function(req,res){
-
+app.post('/faculityview/:id',function(req,res){
+  var id=req.params.id;
+  id=id.slice(1, id.length);
+  if(login==id){
   var sem=req.body.semester;
-  console.log(req.params.id);
+ 
   var na=req.body.name;
   var event=Event.find({}).then(function(events){
   var items=Faculity.find({}).then(function(FoundItems){
@@ -220,7 +226,7 @@ app.post('/faculityview',function(req,res){
     {
       var msg=Msg.find({}).sort({_id:-1}).limit(10).then(function(msg){
         var mentor=Faculity.find({position:false}).then(function(m){
-          res.render(__dirname+'/view/hodview/crud.html',{msgs:msg,name:FoundItems,name2:i,events:events,mentor:m})
+          res.render(__dirname+'/view/hodview/crud.html',{msgs:msg,name:FoundItems,name2:i,events:events,mentor:m,id:id})
   
         })
       })
@@ -229,6 +235,10 @@ app.post('/faculityview',function(req,res){
     })
   })
 })
+  }
+  else{
+    res.redirect('/login');
+  }
 });
 app.get('/mentorview/:id',function(req,res){
   var id=req.params.id;
@@ -278,8 +288,9 @@ app.post('/mentorview/:id',function(req,res){
       })
     })
 });
-app.post('/addevent',(req,res)=>{
- 
+app.post('/addevent/:id',(req,res)=>{
+ var id=req.params.id;
+ id=id.slice(1,id.length);
     const events= new Event({
       title: req.body.title,
       discription: req.body.discription,
@@ -288,83 +299,99 @@ app.post('/addevent',(req,res)=>{
        date:Date()
     });
     events.save();
-    res.redirect('/faculityview')
+    res.redirect(`/faculityview/:${id}`)
 })
-app.get('/extend',(req,res)=>{
-
+app.get('/extend/:id',(req,res)=>{
+  var id=req.params.id;
+  id=id.slice(1,id.length);
   Student.updateMany(
     {},
     {$inc:{semester:1}}
    ).then(()=>{
    
-    res.redirect('/faculityview');
+    res.redirect(`/faculityview/:${id}`)
    })
 })
 app.get('/waste',(req,res)=>{
+  var id=req.params.id;
+  id=id.slice(1,id.length);
   Student.deleteMany({semester:{$gt:8}}).then(function(items){
-    res.redirect('/faculityview')
+    res.redirect(`/faculityview/:${id}`)
   })
 })
-app.post('/addmsg',(req,res)=>{
- 
+app.post('/addmsg/:id',(req,res)=>{
+  var id=req.params.id;
+  id=id.slice(1,id.length);
   const msg= new Msg({
    msg: req.body.msgs,
    date:new Date()
   });
   msg.save();
-  res.redirect('/faculityview')
+  res.redirect(`/faculityview/:${id}`)
 })
 app.get('/addfaculity',(req,res)=>{
   res.render(__dirname+'/public/views/addfaculity.html')
 
 })
-app.post('/studelete',(req,res)=>{
-  var id=req.body.id;
-  
-   Student.findByIdAndDelete(new objectId(id)).then(()=>{
-       res.redirect('/faculityview')
+app.post('/studelete/:id',(req,res)=>{
+  var Id=req.body.id;
+  var id=req.params.id;
+  id=id.slice(1,id.length);
+   Student.findByIdAndDelete(new objectId(Id)).then(()=>{
+    res.redirect(`/faculityview/:${id}`)
 ;  })
   // Event.findByIdAndDelete({name});
 })
-app.post('/eventdelete',(req,res)=>{
-  var id=req.body.id;
-  
-   Event.findByIdAndDelete(new objectId(id)).then(()=>{
-       res.redirect('/faculityview')
+app.post('/eventdelete/:id',(req,res)=>{
+  var Id=req.body.id;
+  var id=req.params.id;
+  id=id.slice(1,id.length);
+   Event.findByIdAndDelete(new objectId(Id)).then(()=>{
+    res.redirect(`/faculityview/:${id}`)
 ;  })
   // Event.findByIdAndDelete({name});
 })
-app.post('/msgdelete',(req,res)=>{
-  var id=req.body.id;
-  
-   Msg.findByIdAndDelete(new objectId(id)).then(()=>{
-       res.redirect('/faculityview')
+app.post('/msgdelete/:id',(req,res)=>{
+  var Id=req.body.id;
+  var id=req.params.id;
+  id=id.slice(1,id.length);
+   Msg.findByIdAndDelete(new objectId(Id)).then(()=>{
+    res.redirect(`/faculityview/:${id}`)
 ;  })
   // Event.findByIdAndDelete({name});
 })
-app.get("/update/:id", async (req, res) => {
+app.get("/faculityview/:id/update/:Id", async (req, res) => {
+  var Id=req.params.Id;
+  Id=Id.slice(1, Id.length);
   var id=req.params.id;
   id=id.slice(1, id.length);
  // console.log(id);
-  res.render(__dirname+'/public/views/update.html',{name:id})
+  res.render(__dirname+'/public/views/update.html',{Id:Id,id:id})
 
 });
-app.post("/edit/:id", async (req, res) => {
+app.post("/faculityview/:id/edit/:Id", async (req, res) => {
+  var Id=req.params.Id;
+  Id=Id.slice(1, Id.length);
   var id=req.params.id;
   id=id.slice(1, id.length);
   console.log(id);
+  console.log(Id);
   var ph=req.body.phone;
-  Faculity.findByIdAndUpdate(new objectId(id),{phone:ph}).then(()=>{
-    res.redirect('/faculityview');
+  Faculity.findByIdAndUpdate(new objectId(Id),{phone:ph}).then(()=>{
+    res.redirect(`/faculityview/:${id}`)
     
   }).catch((err)=>{
     console.log("kuch err hai ");
     console.log(err);
   });
 });
-app.post("/stuedit", async (req, res) => {
-  var id=req.body.urn;
- 
+app.post("/stuedit/:id", async (req, res) => {
+
+  var id=req.params.id;
+  id=id.slice(1, id.length);
+  var Id=req.body.urn;
+ console.log(id);
+ console.log(login);
    
 var name= req.body.name;
 var phone=req.body.phone;
@@ -372,8 +399,8 @@ var semester=req.body.semester;
  var comment=req.body.comment;
   var mentor=req.body.mentor
   
-  Student.findOneAndUpdate({urn:id},{name:name,phone:phone,semester:semester,comment:comment}).then(()=>{
-    res.redirect('/faculityview');
+  Student.findOneAndUpdate({urn:Id},{name:name,phone:phone,semester:semester,comment:comment,mentor:mentor}).then(()=>{
+    res.redirect(`/faculityview/:${id}`)
     
   }).catch((err)=>{
     console.log("kuch err hai ");
@@ -438,7 +465,9 @@ app.post('/imageadd', upload.single('image'), (req, res, next) => {
   });
 });
 
-app.post('/save', upload.single('image'), (req, res, next)=> {
+app.post('/save/:id', upload.single('image'), (req, res, next)=> {
+  var id=req.params.id;
+  id=id.slice(1, id.length);
  
   var obj={
     img: {
@@ -452,11 +481,13 @@ app.post('/save', upload.single('image'), (req, res, next)=> {
   };
   Faculity.create(obj)
   .then ((err, item) => {
-     res.redirect('/faculityview');
+    res.redirect(`/faculityview/:${id}`)
      
   });
 })
-app.post('/student/save', upload.single('image'), (req, res, next)=> {
+app.post('/student/save/:id', upload.single('image'), (req, res, next)=> {
+  var id=req.params.id;
+  id=id.slice(1, id.length);
  
   var obj = {
       urn:req.body.urn,
@@ -469,7 +500,7 @@ app.post('/student/save', upload.single('image'), (req, res, next)=> {
   }
   Student.create(obj)
   .then ((err, item) => {
-     res.redirect('/faculityview');
+    res.redirect(`/faculityview/:${id}`)
      
   });
 });
