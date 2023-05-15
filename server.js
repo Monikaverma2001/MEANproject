@@ -6,6 +6,7 @@ const cors=require('cors');
 app.use(cors());
 console.log("ok");
 // set our port
+let login=0;
 var mongoose = require('mongoose');
 
       
@@ -48,7 +49,10 @@ app.get('/',
 app.get('/login', 
 
 //(req, res) => res.send('Welcome to Tutorialspoint!')
-(req, res) =>res.sendFile(__dirname + '/view/index.html')
+(req, res) =>{
+  login=0;
+  res.sendFile(__dirname + '/view/index.html')
+}
 
 );
 app.get('/logo', 
@@ -88,6 +92,7 @@ app.get('/student', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
+  login=0;
   let name=req.body.name;
   let password=req.body.password;
   //var position=Faculity.findOne(name).position;
@@ -104,10 +109,12 @@ app.post('/login', async (req, res) => {
           
          if(position=="true")
          {
-         
-              res.redirect(`/faculityview`)
+              login=id;
+              res.redirect(`/faculityview/:${id}`)
          }
          else{
+              login=id;
+              console.log(id);
           res.redirect(`/mentorview/:${id}`)
          }
          
@@ -165,8 +172,10 @@ app.post('/delete:id',(req,res)=>
     console.log(err);
   });
 });
-app.get('/faculityview',function(req,res){
-  console.log(req.params.name);
+app.get('/faculityview/:id',function(req,res){
+  var id=req.params.id;
+  id=id.slice(1, id.length);
+  if(login==id){
   var sem=req.body.semester;
  var event=Event.find({}).then(function(events){
   var items=Faculity.find({}).then(function(FoundItems){
@@ -182,7 +191,10 @@ app.get('/faculityview',function(req,res){
     })
       })
     });
-  
+  }
+  else{
+    res.redirect('/login');
+  }
 });
 app.post('/searchByName',function(req,res){
   var n=req.body.name;
@@ -198,6 +210,7 @@ app.post('/searchByName',function(req,res){
    
 });
 app.post('/faculityview',function(req,res){
+
   var sem=req.body.semester;
   console.log(req.params.id);
   var na=req.body.name;
@@ -219,7 +232,10 @@ app.post('/faculityview',function(req,res){
 });
 app.get('/mentorview/:id',function(req,res){
   var id=req.params.id;
-id= id.slice(1,id.length);
+  id= id.slice(1,id.length);
+  console.log(id);
+  if(login==id){
+ 
  
  // console.log(m);
   var event=Event.find({}).then(function(events){
@@ -237,6 +253,10 @@ id= id.slice(1,id.length);
   })
       })
     })
+  }
+  else{
+    res.redirect('/login');
+  }
 });
 app.post('/mentorview/:id',function(req,res){
   var id=req.params.id;
@@ -452,6 +472,38 @@ app.post('/student/save', upload.single('image'), (req, res, next)=> {
      res.redirect('/faculityview');
      
   });
-})
+});
+// const nodemailer = require("nodemailer");
+// const transporter = nodemailer.createTransport(config.mailAuth);
+  
+// app.get('forgot',(req,res)=>{
+  
+//   const sendOTP = (to, otp) => {
+//   return new Promise(async (resolve, reject) => {
+//       try {
+//       if (to === "undefined" && typeof otp == "undefined") {
+//           return new Error("invalid input for email");
+//       }
+//       const emailTemplate = await ejs.renderFile(otpTemaplte, {
+//           VERIFICATION_CODE: otp,
+//       });
+//       const result = await transporter.sendMail({
+//           from: "noreply@mail.com",
+//           to: to,
+//           subject: "OTP for email verification",
+//           html: emailTemplate,
+//       });
+//       if (result) {
+//           return resolve(result);
+//       }
+//       } catch (error) {
+//       return reject(error);
+//       }
+//   });
+//   };
+// })
+
+
+
 app.use(express.static(path.join(__dirname, 'public')))
 app.listen(port, ()=> console.log(`Example app listening on port http://localhost:${port}/`));
