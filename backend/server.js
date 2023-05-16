@@ -7,6 +7,10 @@ app.use(cors());
 console.log("ok");
 // set our port
 let login=0;
+const route=require('./routes/faculity');
+
+app.use(route);
+const bcrypt=require('bcryptjs')
 var mongoose = require('mongoose');
 
       
@@ -27,7 +31,7 @@ var mongoose = require('mongoose');
         var upload = multer({ storage: storage });
 
 
-const port = 3000;
+const port = 8000;
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.engine('html', require('ejs').renderFile);
@@ -465,17 +469,19 @@ app.post('/imageadd', upload.single('image'), (req, res, next) => {
   });
 });
 
-app.post('/save/:id', upload.single('image'), (req, res, next)=> {
+app.post('/save/:id', upload.single('image'), async (req, res, next)=> {
   var id=req.params.id;
   id=id.slice(1, id.length);
- 
+//  let salt= await bcrypt.genSalt(10);
+//  let hashp= await bcrypt.hash(req.body.password,salt);
   var obj={
     img: {
       data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
       contentType: 'image/png'
   },
     name: req.body.name,
-     password:req.body.password,
+  //  password:hashp,
+    password:req.body.password,
     position:req.body.position,
     phone:req.body.phone
   };
