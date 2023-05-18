@@ -1,0 +1,6 @@
+<ul class="listings" *ngIf="listings$ | async as listings">
+    <li *ngFor="let listing of listings">
+        <h1>{{listing.title}}</h1>
+        <a [routerLink="listing._id"]>View Detail</a>
+    </li>
+</ul>
