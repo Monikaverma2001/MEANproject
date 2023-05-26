@@ -3,17 +3,29 @@ import { BrowserModule } from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AllListingComponent } from './listing/all-listing/all-listing.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NgForm } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+ 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+  
   ],
+ 
   providers: [],
   bootstrap: [AppComponent]
 })

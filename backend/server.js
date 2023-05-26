@@ -59,6 +59,16 @@ app.get('/login',
 }
 
 );
+app.get('/api/getData', async (req, res) => {
+  var items=Student.find({}).then(function(FoundItems){
+    var mentor=Faculity.find({position:true}).then(function(i){
+      console.log(FoundItems);
+      res.send(FoundItems)
+      
+
+    })
+      })
+})
 app.get('/logo', 
 
 //(req, res) => res.send('Welcome to Tutorialspoint!')
@@ -96,13 +106,17 @@ app.get('/student', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
+  
   login=0;
+  // val
   let name=req.body.name;
   let password=req.body.password;
+  console.log(name+" ");
   //var position=Faculity.findOne(name).position;
-  Faculity.findOne({name}).then(function(FoundItems){
-    console.log(FoundItems.position)
+  Faculity.findOne({name:name}).then(function(FoundItems){
+    
     var position=FoundItems.position;
+    
     var id=FoundItems.id;
         if(FoundItems==null)
         {
@@ -113,6 +127,7 @@ app.post('/login', async (req, res) => {
           
          if(position=="true")
          {
+         // console.log(FoundItems.position)
               login=id;
               res.redirect(`/faculityview/:${id}`)
          }
@@ -542,5 +557,9 @@ app.post('/student/save/:id', upload.single('image'), (req, res, next)=> {
 
 
 
+
+
+
 app.use(express.static(path.join(__dirname, 'public')))
-app.listen(port, ()=> console.log(`Example app listening on port http://localhost:${port}/`));
+ app.listen(3000, ()=> console.log(`Example app listening on port http://localhost:${port}/`));
+module.exports=app;
