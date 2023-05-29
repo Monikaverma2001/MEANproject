@@ -53,6 +53,10 @@ app.controller("myCtrl", function($scope) {
                 <input type="number" placeholder="semster" name="semester" min="1" max="8" step="1">
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
+            <form action='/login'  style="float:right;margin-right: 10%;">
+                 
+                <button type="submit" >logout</button>
+              </form>
             </div>
           </nav>
     
@@ -79,7 +83,7 @@ app.controller("myCtrl", function($scope) {
                   <% } %>
             </div></div>
         <div class="col-sm-8  ">
-            <div id="FoundItems">
+            <div id="FoundItems" style="margin: 2% 10%;">
                 <% if(name2!=null) { %>
                     <h1>Student details</h1>
                     <table class="table ">

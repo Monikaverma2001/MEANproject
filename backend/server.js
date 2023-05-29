@@ -63,7 +63,7 @@ app.get('/api/getData', async (req, res) => {
   var items=Student.find({}).then(function(FoundItems){
     var mentor=Faculity.find({position:true}).then(function(i){
       console.log(FoundItems);
-      res.send(FoundItems)
+          res.send(FoundItems)
       
 
     })

@@ -10,18 +10,26 @@ import { Model } from './model';
 })
 
 export class LoginComponent implements OnInit {
-  data: {} | undefined;
- ngOnInit() {
-  this.getDataFromApi();
+  data=''
+  name=[]
+  urn=[]
+
+ ngOnInit():void {
+  
  }
- constructor(private service:ServiceService){}
- getDataFromApi(){
-  this.service.getData().subscribe((response)=>{
-    this.data=response;
-    console.log("responsing",response);
+ constructor(private service:ServiceService){
+  this.name=[]
+  this.urn=[]
+ }
+ getDataFromApi() {
+  this.service.getData().subscribe(response=>{
+    this.name=response['0']['name'];
+    this.data=JSON.stringify(response);
+   // this.data=response.toArray();
+    console.log("responsing",this.data);
   },(error)=>{
     console.log(error);
   })
  }
-
+ 
 }
