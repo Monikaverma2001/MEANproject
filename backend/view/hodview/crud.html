@@ -80,12 +80,25 @@
   }
 
   nav {
-    background-color: rgb(255, 232, 232);
+    background-color: rgb(76, 118, 35);
+   
   }
-
+  .green{
+    text-align: center;
+    border-radius: 7px;
+    margin-top: 10px;
+    font-size: large;
+    font-weight: bold;
+    color:#fdfdfd;
+    background-color: rgb(76, 118, 35);
+  }
   body {
     font-size: smaller;
-    background-color: rgb(251, 251, 251);
+    background: #fdfdfd;  /* fallback for old browsers */
+    padding: 10px 10px;
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    color: #000;
   }
   button a{
     text-decoration: none;
@@ -234,6 +247,9 @@
 <div>
   <img src="../../images/gndecnav.png" alt="" style="width:80%;text-align: center;" class="rounded-pill">
 </div>
+
+
+
 <nav class="navbar navbar-expand-sm " style="width:100%;">
   <div class="container-fluid">
     <ul class="navbar-nav m-2">
@@ -243,42 +259,41 @@
       <li class="nav-item m-3">
         <a class="nav-link" aria-current="page" href="/mentorview">change Student</a>
       </li>
-     
-      <li class="nav-item m-3" >
-    <form action='/faculityview/:<%= id%>' class="d-flex" method="POST">
-      <input class="form-control me-2" type="number" placeholder="semster" name="semester" min="1" max="8"
+    </ul>
+    <br><br>
+    <form action='/faculityview/:<%= id%>' style="float:right;" method="POST">
+      <input type="number" placeholder="semster" name="semester" min="1" max="8"
         step="1">
        
       <button type="submit" >Search</button>
     </form>
-   
-  </li>
-  <li class="nav-item m-3">
-    <form action='/login' class="d-flex" >
+  <form action='/login' style="float:right;" >
      
-      <button type="submit" >logout</button>
-    </form>
-  </li>
+    <button type="submit" >logout</button>
+  </form>
+  
   </div>
 </nav>
 
   <div class="row">
     <div class="col-sm-2" style="background-color: azure;">
-      <div style="margin-left: 5%;">
-        <h1>SEND MESSEGE</h1>
-        <div style="border: 2px solid black;border-radius: 10px;">
-          <div style="margin:2px 2px">
+      <div style="margin-left: 5%;margin-top: 10px;">
+        
+        <div style="border: 2px solid black;border-radius: 10px;background-color: white;">
+          <div style="margin:2px 2px" class="container">
+            <h1 class="green">MESSEGE</h1>
             <% if(msgs!=null){%>
               <% msgs.forEach(function(item){ %>
 
 
-                <div style="margin: 5px 5px; border:1px solid grey;padding: 2px 2px;">
+                <div style="margin: 5px 5px; padding: 2px 2px;" >
                   <%= item.msg%>
                     <form action="/msgdelete/:<%= id%>" method="post">
                       <input type="text" name="id" value="<%= item.id %>" style="display: none;">
                       <button >delete</button>
                     </form>
                     <%= item.date%>
+                    <hr>
                 </div>
 
                 <% })} %>
@@ -417,11 +432,11 @@
                 </div>
             </div>
             <div style="text-align: center;">
-              <button ><a ng-href="#/!">Main</a></button>
-              <button> <a ng-href="#!addevent">ADD EVENT</a></button>
-              <button > <a ng-href="#!addstudent">ADD STUDENT</a></button>
-              <button ><a ng-href="#!updatestudent">UPDATE STUDENT</a></button>
-              <button ><a ng-href="#!addmentor">SAVE NEW FACULITY</a></button>
+              <button class="green"><a ng-href="#/!">Main</a></button>
+              <button class="green"> <a ng-href="#!addevent">ADD EVENT</a></button>
+              <button class="green"> <a ng-href="#!addstudent">ADD STUDENT</a></button>
+              <button class="green"><a ng-href="#!updatestudent">UPDATE STUDENT</a></button>
+              <button class="green"><a ng-href="#!addmentor">SAVE NEW FACULITY</a></button>
              
               <div ng-view></div>
             </div>
@@ -451,7 +466,7 @@
 
         <div>
           <form action="/student/save/:<%= id %>" method="POST" enctype="multipart/form-data" class="form-control">
-            <h1>ADD STUDENT</h1>
+            <h1 class="green">ADD STUDENT</h1>
 
             <input type="number" placeholder="enter university rollnumber" name="urn" class="form-control"><br>
             <input type="text" placeholder="username" name="name" class="form-control"><br>
@@ -504,8 +519,8 @@
                   dialog.close();  
 };
                         })();</script>
-      <hr><br><br>
-      <h6 style="text-align: center;">IT DEPARTMENT EVENTS</h6>
+      <hr>
+      <h1 class="green">IT DEPARTMENT EVENTS</h1>
       <% if(events!=null) { %>
         <ul>
           <% events.forEach(function(item){ %>
