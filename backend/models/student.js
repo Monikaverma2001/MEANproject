@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 module.exports = mongoose.model('Student', {
    
 urn: {type : Number, default: 00000000},
+password:{type:String,default:''},
 name : {type : String, default: ''},
 phone:{type:Number,default:0000000000},
 semester:{type:Number,default:0},

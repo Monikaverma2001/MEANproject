@@ -117,7 +117,7 @@
     color:rgb(255, 255, 255);
     
   }
-  
+
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
@@ -320,10 +320,10 @@
     <div class="col-sm-8 mt-2" style="background-color: rgb(243, 241, 241);">
       
        <div style="text-align: center;margin: 2px 10%;">
-        <div>
+        <div class="table-responsive">
               <% if(name2!=null) { %>
                 <% i=1 %>
-                  <table class="table ">
+                  <table class="table table-hover" >
                     <h1>Student details</h1>
                     <tr>
                       <th>SN0.</th>
@@ -370,14 +370,14 @@
 
               <% i=1 %>
                 <h1>IT DEPARTMENT MENTORS AND HOD </h1>
-                <form action="/addfaculity" method="GET" style="text-align:end;">
+                <form action="/addfaculity" method="GET" style="text-align:end;" onSubmit="alert('Are you sure you wish to ADD faculity');">
                   <button type="submit" >add facultiy</button>
                 </form>
 
-                <div id="FoundItems">
+                <div id="FoundItems" class="table-responsive">
 
                   <% if(name!=null) { %>
-                    <table class="table ">
+                    <table class="table table-hover" >
 
 
                       <tbody>
@@ -414,13 +414,13 @@
                                   <%} %>
                                   
                                     <td>
-                                      <form action="/faculityview/:<%= id%>/delete:<%= item.id %>" method="POST" style="display:inline-flex;">
+                                      <form onSubmit="alert('Are you sure you wish to delete?');" action="/faculityview/:<%= id%>/delete:<%= item.id %>" method="POST" style="display:inline-flex;">
                                         <button value="submit" >delete</button>
                                       </form>
                                     </td>
                                     <td>
                                      
-                                      <form action="/faculityview/:<%= id %>/update/:<%= item.id %>" style="display:inline-flex;">
+                                      <form onSubmit="alert('Are you sure you wish to edit?');"action="/faculityview/:<%= id %>/update/:<%= item.id %>" style="display:inline-flex;">
                                         <button type="submit" >edit</button>
                                       </form>
                                     </td>
