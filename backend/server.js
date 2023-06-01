@@ -198,6 +198,55 @@ app.post('/show',function(req,res){
   }
     )
 
+// menteView
+app.get('/mentee', async (req, res) => {
+  res.render(__dirname + '/view/menteeView/crud.html')
+})
+
+app.post('/menteeLogin', async (req, res) => {
+  let urn = req.body.urn
+  let phone = req.body.phone;
+  console.log(urn, phone)
+  Student.findOne({ urn }).then(function (data) {
+    if (data == null) {
+      res.sendFile(__dirname + '/view/home.html')
+    }
+    else if (data.phone == phone) {
+      console.log(data.name);
+      var id = data.id;
+      res.redirect(`/menteeView/:${id}`);
+    }
+    else {
+      res.send("enter a data");
+    }
+  })
+});
+
+app.get('/menteeView/:id', async function (req, res) {
+  var id = req.params.id;
+  id = id.slice(1, id.length);
+  try {
+    const student = await Student.findById(id);
+    if (!student) {
+      return res.status(404).send();
+    }
+    res.render(__dirname + "/view/menteeView/update.html", { name: student });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+})
+
+app.post('/menteeTask/:id', async(req, res) =>{
+  var id = req.params.id;
+  var task1 = req.body.task
+  id = id.slice(1, id.length);
+    const student = await Student.findById(id);
+
+    student.tasks = new task2({
+      task:task1,
+    }).save();
+
+})
 // app.get('/imageadd',(req,res)=>
 // {
 //   imgSchema.find({})
