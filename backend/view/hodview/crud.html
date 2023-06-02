@@ -267,6 +267,11 @@
       </li>
     </ul>
     <br><br>
+    <form action='/faculityview/name/:<%= id%>' style="float:right;" method="POST">
+      <input type="text" placeholder="semster" name="name" >
+       
+      <button type="submit" >Search</button>
+    </form>
     <form action='/faculityview/:<%= id%>' style="float:right;" method="POST">
       <input type="number" placeholder="semster" name="semester" min="1" max="8"
         step="1">
@@ -340,7 +345,7 @@
                       <th>semester</th>
                       <th>operation</th>
                     </tr>
-                    <% name2.forEach(function(item){ %>
+                    <% name2.forEach(function(item){  %>
                       <tr>
                         <td>
                           <%= i++%>
@@ -372,6 +377,43 @@
                   </table>
                   <% } %>
             </div>
+
+            <% if(an!=null) { %>
+              <% i=1 %>
+                <table class="table table-hover" >
+                  
+                  <% an.forEach(function(item){  %>
+                    <tr>
+                      <td>
+                        <%= i++%>
+                      </td>
+                      <td>
+                        <%= item.urn%>
+                      </td>
+                      <td>
+                        <%= item.name%>
+                      </td>
+                      <td>
+                        <%= item.phone%>
+                      </td>
+                      <td>
+                        <%= item.mentor%>
+                      </td>
+                      <td>
+                        <%= item.semester%>
+                      </td>
+                      <td>
+                        <form action="/studelete/:<%= id %>" method="POST" style="display:inline-flex;">
+                          <input type="text" name="id" value="<%=item.id%>" style="display: none;">
+                          <button value="submit">delete</button>
+                        </form>
+                      </td>
+                      
+                    </tr>
+                    <% }) %>
+                </table>
+                <% } %>
+          
             <div class="fac">
 
               <% i=1 %>
@@ -454,7 +496,7 @@
   </div>
     <div class="col-sm-2" style="background-color: azure;">
 
-<div  style="margin-right: 5%;">
+<!-- <div  style="margin-right: 5%;">
       <div style="text-align: center; margin :20px 10px">
         <form action="/extend"> <button  type="submit"> NEW SEMESTER</button></form><br>
 
@@ -466,7 +508,7 @@
       </div>
       
       <br><br>
-      <hr><br><br>
+      <hr><br><br> -->
       <dialog id="window">
 
 

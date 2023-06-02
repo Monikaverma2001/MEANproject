@@ -27,7 +27,7 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-const port = 3000;
+const port = 8000;
 app.use(bodyParser.urlencoded({ extended: true }))
 app.engine('html', require('ejs').renderFile);
 var db = require('./config/db');
@@ -111,7 +111,7 @@ app.use('/mentorview/:id', route);
 
 app.use('/addevent/:id', route);
 app.use('/extend/:id', route);
-
+app.post('/faculityview/name/:id',controller.hodparamsname);
 app.use('/addmsg/:id', route);
 app.use('/addfaculity', route);
 app.use('/studelete/:id', route);

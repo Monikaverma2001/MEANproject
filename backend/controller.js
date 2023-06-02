@@ -85,7 +85,7 @@ exports.hodparamsds = function(req, res){
     });
 }
 
-//hod view with id
+//hod view with id search by student semester
 exports.hodparams = function (req, res) {
     var id = req.params.id;
     id = id.slice(1, id.length);
@@ -96,7 +96,7 @@ exports.hodparams = function (req, res) {
                 var it = Student.find({ semester: sem }).then(function (i) {
                     var msg = Msg.find({}).sort({ _id: -1 }).limit(10).then(function (msg) {
                         var mentor = Faculity.find({ position: false }).then(function (m) {
-                            res.render(__dirname + '/view/hodview/crud.html', { msgs: msg, name: FoundItems, name2: null, events: events, mentor: m, id: id })
+                            res.render(__dirname + '/view/hodview/crud.html', { msgs: msg, name: FoundItems, name2: null, events: events, mentor: m, id: id ,an:null})
 
                         })
                     })
@@ -109,8 +109,30 @@ exports.hodparams = function (req, res) {
         res.redirect('/login');
     }
 }
+//search by name
+exports.hodparamsname = function (req, res) {
+    var id = req.params.id;
+    id = id.slice(1, id.length);
+    if (login == id) {
+        var sem = req.body.name;
+        var event = Event.find({}).then(function (events) {
+            var items = Faculity.find({}).then(function (FoundItems) {
+                var it = Student.find({ name:  { $regex: '.*' + sem + '.*' }  }).then(function (i) {
+                    var msg = Msg.find({}).sort({ _id: -1 }).limit(10).then(function (msg) {
+                        var mentor = Faculity.find({ position: false }).then(function (m) {
+                            res.render(__dirname + '/view/hodview/crud.html', { msgs: msg, name: FoundItems, name2: null, events: events, mentor: m, id: id,an:i })
 
+                        })
+                    })
 
+                })
+            })
+        });
+    }
+    else {
+        res.redirect('/login');
+    }
+}
 //post request of hod view with id in params
 exports.hodparamspost = function (req, res) {
     var id = req.params.id;
@@ -124,7 +146,7 @@ exports.hodparamspost = function (req, res) {
                 var it = Student.find({ semester: sem }).then(function (i) {
                     var msg = Msg.find({}).sort({ _id: -1 }).limit(10).then(function (msg) {
                         var mentor = Faculity.find({ position: false }).then(function (m) {
-                            res.render(__dirname + '/view/hodview/crud.html', { msgs: msg, name: FoundItems, name2: i, events: events, mentor: m, id: id })
+                            res.render(__dirname + '/view/hodview/crud.html', { msgs: msg, name: FoundItems, name2: i, events: events, mentor: m, id: id ,an:null})
 
                         })
                     })
@@ -154,7 +176,7 @@ exports.mentorgetid = function (req, res) {
                     var msg = Msg.find({}).sort({ _id: -1 }).limit(10).then(function (msg) {
                         var p = Faculity.findById(new objectId(id)).then(function (p) {
 
-                            res.render(__dirname + '/view/mentorview/crud.html', { msgs: msg, name2: null, mentor: i, events: events, m: p })
+                            res.render(__dirname + '/view/mentorview/crud.html', { msgs: msg, name2: null, mentor: i, events: events, m: p ,an: null})
 
                         })
 
@@ -180,7 +202,7 @@ exports.mentorpostid =  function(req, res) {
                 var msg = Msg.find({}).sort({ _id: -1 }).limit(10).then(function (msg) {
                     var p = Faculity.findById(new objectId(id)).then(function (p) {
 
-                        res.render(__dirname + '/view/mentorview/crud.html', { msgs: msg, name2: FoundItems, mentor: i, events: events, m: p })
+                        res.render(__dirname + '/view/mentorview/crud.html', { msgs: msg, name2: FoundItems, mentor: i, events: events, m: p ,an:null})
 
                     })
                 })
