@@ -7,7 +7,7 @@ var login = 0;
 const Msg= require('./models/msg');
 const Event = require('./models/events');
 var objectId = require("mongodb").ObjectId;
-exports.home= (req, res) =>{res.sendFile(__dirname + '/view/home.html')}
+exports.home= (req, res) =>{res.redirect('\login')}
 
       
 
@@ -39,14 +39,14 @@ exports.postlogin = async (req, res) => {
     //var position=Faculity.findOne(name).position;
     Faculity.findOne({ name: name }).then(function (FoundItems) {
 
-        var position = FoundItems.position;
-
-        var id = FoundItems.id;
         if (FoundItems == null) {
-            res.sendFile(__dirname + '/view/home.html')
+            res.redirect('/login');
         }
         else if (FoundItems.password === password) {
+            var position = FoundItems.position;
 
+            var id = FoundItems.id;
+           
             if (position == "true") {
                 // console.log(FoundItems.position)
                 login = id;
@@ -332,25 +332,54 @@ exports.stuedit= function(req, res) {
       console.log(err);
     });
   }
-//add student
-exports.stuadd= function(req, res) {
-    var id=req.params.id;
-    id=id.slice(1, id.length);
-    login = id;
-    console.log("adding");
-    const obj = new Student({
-        urn:req.body.urn,
-    name: req.body.name,
-     phone:req.body.phone,
-     semester:req.body.semester,
-       comment:req.body.comment,
-       mentor:req.body.mentor,
-       
-    }
-    );
-    obj.save().then(()=> res.redirect(`/faculityview/:${id}`))
-
+exports.taskpost= function(req, res) {
+    var id = req.params.id;
+    var task1 = req.body.task
+    id = id.slice(1, id.length);
+    const student =  Student.findById(id);
+    //   student.updateOne(
+    //     { _id: id },
+    //     { $push: { task: task1} }
+    //  ).then(function(err){
+    //   console.log(err);
+    //  })
+    Student.findByIdAndUpdate({_id: id},
+      {
+        $push: {
+          tasks: {
+            "task":task1,
+          } //inserted data is the object to be inserted 
+        }
+      }).then(function(item){
+        Event.find({}).then(function (FoundItems) {
+          //console.log(item);
+          res.redirect(`/menteeView/:${id}`);
+              })
+      })
+    // student.tasks = new task1({
+    //   task: task1,
+    // }).save();
+  
   }
+//add student
+// exports.stuadd= function(req, res) {
+//     var id=req.params.id;
+//     id=id.slice(1, id.length);
+//     login = id;
+//     console.log("adding");
+//     const obj = new Student({
+//         urn:req.body.urn,
+//     name: req.body.name,
+//      phone:req.body.phone,
+//      semester:req.body.semester,
+//        comment:req.body.comment,
+//        mentor:req.body.mentor,
+       
+//     }
+//     );
+//     obj.save().then(()=> res.redirect(`/faculityview/:${id}`))
+
+//   }
 // exports.addfac=async (req, res, next)=> {
 //     var id=req.params.id;
 //     id=id.slice(1, id.length);

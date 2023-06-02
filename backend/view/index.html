@@ -6,7 +6,146 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>guru.gndec.ac.in</title>
 </head>
-<style>
+<style>        *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      font-size: 62.5%;
+    }
+    html,
+    body {
+      height: 100%;
+    }
+    body {
+      font-family: "Poppins", sans-serif;
+      font-size: 1.6rem;
+      color: #fff;
+      background-color: #0c3baf;
+      display: grid;
+      place-items: center;
+    }
+    /* ======================== */
+    /* General styles */
+    button,
+    input {
+      font: inherit;
+      border: none;
+      outline: none;
+    }
+    /* General styles end */
+    .container {
+      position: relative;
+      isolation: isolate;
+      width: 40rem;
+      padding: 10rem 0;
+      color: #fff;
+      background-color: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 1px 1rem rgba(0, 0, 0, 0.1);
+    }
+    .container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 10rem;
+      background-color: #4abe8c;
+      border-radius: 1rem 1rem 100% 100%;
+    }
+    .form__title {
+      position: absolute;
+      top: 3.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2.5rem;
+    }
+    .form {
+      padding: 2.5rem;
+      background-color: inherit;
+    }
+    .form__group {
+      position: relative;
+      display: flex;
+      align-items: baseline;
+      margin-inline: auto;
+    }
+    .form__icon {
+      font-size: 2rem;
+      margin-right: 1rem;
+      color: #00ec4f;
+    }
+    .form__input {
+      position: relative;
+      width: 100%;
+      margin-top: 0.5rem;
+      padding-block: 1rem;
+    }
+    .form__bar {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.1);
+      width: 100%;
+      height: 1px;
+    }
+    .form__bar::before {
+      content: "";
+      position: absolute;
+      background-color: #6600ec;
+      width: 100%;
+      height: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s;
+    }
+    .form__input:focus + .form__bar::before,
+    .form__input:valid + .form__bar::before {
+      transform: scaleX(1);
+    }
+    .form__button {
+      display: block;
+      margin: 2.5rem auto 3rem;
+      padding: 1rem 5rem;
+      background-color: #00ec66;
+      color: #fff;
+      border-radius: 3rem;
+      cursor: pointer;
+    }
+    .form__button:hover {
+      background-color: #00ec23;
+    }
+    .form__switch {
+      font-size: 1.5rem;
+      text-align: center;
+      color: #a1a1a1;
+    }
+    .form__switch a {
+      text-decoration: none;
+      color: #6600ec;
+    }
+    .form__switch a:hover {
+      text-decoration: underline;
+    }
+    @media screen and (min-width: 43.75em) {
+      .container::before {
+        height: 30rem;
+      }
+      .form__title {
+        left: 10rem;
+        transform: none;
+      }
+      .form {
+        transform: translateX(10rem);
+        border-radius: inherit;
+        box-shadow: inherit;
+      }
+    }
     .bt
     {
         width: 150px;
@@ -22,20 +161,76 @@
         border: 1px solid grey;
       }
 </style>
-<body>
-    <div style="text-align:center;margin:10px auto;width:30%;padding: 50px 50px;" class="con" >
-        <div>
-    <form action="/loginp" method="POST" >
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+
+<body ng-app="myApp">
+    <script>
+        var app = angular.module("myApp", ["ngRoute"]);
         
-        <img class="img-circle" src="/images/logo.jpg" alt="#" width="200px" height="200px" loading="lazy"><br>
-        <input type="text" placeholder="username" name="name"><br><br>
-        <input type="password" placeholder="password" name="password"><br><br>
-        <br><br><br><br>
-        <button type="submit" >Submit</button>
-      </form>
-    </div>
+        app.config(function ($routeProvider) {
+          $routeProvider
+            .when("/mentee", {
+              template:'<div class="container">\
+                <span class="form__title">LOGIN</span>\
+                <form class="form" action="/menteeLogin" method="POST" >\
+                  <div class="form__group">\
+                    <i class="ri-user-line form__icon"></i>\
+                    <input type="number" placeholder="URN" name="urn" required class="form__input" />\
+                    <span class="form__bar"></span>\
+                  </div>\
+                  <div class="form__group">\
+                    <i class="ri-lock-line form__icon"></i>\
+                    <input\
+                      type="password"\
+                      placeholder="password"required name="password" class="form__input"/>\
+                    <span class="form__bar"></span>\
+                  </div>\
+                  <div class="form__group">\
+                    <i class="ri-lock-line form__icon"></i>\
+                    <input\
+                    type="password"\
+                      placeholder="Confirm password"\
+                      required\
+                      class="form__input"\
+                    />\
+                    <span class="form__bar"></span>\
+                  </div>\
+                  <button type="submit" class="form__button">Login</button>\
+                </form>\
+              </div>'})
+               .when("/fac", {
+              template:'<div class="container">\
+                <span class="form__title">LOGIN</span>\
+    <form class="form"  action="/loginp" method="POST" >\
+        \
+              <div class="form__group">\
+        <input type="text" placeholder="username" name="name" required class="form__input" />\
+        <span ></span>\
+    </div>\
+    <div class="form__group">\
+        <input type="password" placeholder="password" name="password" required class="form__input">\
+        <span ></span>\
+    </div>\
+        \
+        <button type="submit" class="form__button" >Submit</button>\
+      </form>\
+    </div>'})});
+            </script>
+
+    <div style="text-align:center;margin:10px auto;padding: 50px 50px;" class="con" >
+        <div style="text-align: center;" >
+           
+            <button  class="form__button"><a ng-href="#!fac">LOGIN AS FACULITY</a></button>
+            <button  class="form__button" ><a ng-href="#!mentee">LOGIN AS MENTEE</a></button>
+           
+            <div ng-view style="height: 400px;"></div>
+          </div>
+        <div>
+            
+
       <a href="#">lost password?</a>
-      
+      </div>
       <hr  >
       <!--
     <h3>Some courses may allow guest access</h3>
