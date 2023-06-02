@@ -77,30 +77,62 @@ button {
 <body>
 		            
 <!-- Student Profile -->
+<div style="float: right;">
+  <form action="\login" >
+    <button type="submit">logout</button>
+  </form>
+</div>
 <div class="student-profile py-4">
   <div class="container">
     <div class="row">
       <div class="col-lg-4">
+        
+        
         <div class="card shadow-sm">
           <div class="card-header bg-transparent text-center">
             <h3>Test Name</h3>
           </div>
           <div class="card-body">
-            <p class="mb-0"><strong class="pr-1">Student ID:</strong><%=name._id%></p>
-            <p class="mb-0"><strong class="pr-1">Class:</strong><%=name.class%></p>
-            <p class="mb-0"><strong class="pr-1">Section:</strong><%=name.section%></p>
+            <p class="mb-0"><strong class="pr-1">Year:</strong><%=name.batch.year%></p>
+            <p class="mb-0"><strong class="pr-1">Section:</strong><%=name.batch.section%></p>
           </div> 
           <div class="card-body">
             <strong>
               <p>Comments</p>
             </strong>
-            <p>
-              <%=name.comment%>
-            </p>
+          <div class="container"> 
+            <%=Object.values(name.tasks)%></div>
+          
+           
           </div>
         </div>
+        <div class="col-lg mt-4">
+          <div class="card shadow-sm ">
+            <div class="card-header bg-transparent text-center">
+              <h3>Events</h3>
+            </div>
+            <div class="card-body">
+              
+              <% if(events!=null) { %>
+                <ul>
+                  <% events.forEach(function(item){ %>
+                    <li style="color:blue;">
+                      <%= item.title %>
+                        <%= item.discription %>
+                          <%= item.start %>
+                            <%= item.end %>
+                              <br>
+                              <%= item.date %>
+                               
+                    </li>
+                    <% }) %>
+                </ul>
+                <% } %>          </div> 
+    </div>
+  </div>
       </div>
-      <div class="col-lg-8">
+      
+<div class="col-lg-8 mt-5">
         <div class="card shadow-sm">
           <div class="card-header bg-transparent border-0">
             <h3 class="mb-0"><i class="far fa-clone pr-1"></i>General Information</h3>
@@ -143,17 +175,7 @@ button {
           </div>
         </div>
       </div>
-      <div class="card shadow-sm events">
-          <div class="card-header bg-transparent text-center">
-            <h3>Events</h3>
-          </div>
-          <div class="card-body">
-            <p class="mb-0"><strong class="pr-1">Student ID:</strong><%=name._id%></p>
-            <p class="mb-0"><strong class="pr-1">Class:</strong><%=name.class%></p>
-            <p class="mb-0"><strong class="pr-1">Section:</strong><%=name.section%></p>
-          </div> 
-  </div>
-</div>
+      
 <div>
 </div>
 <!-- partial -->

@@ -133,17 +133,23 @@
     
     app.config(function ($routeProvider) {
       $routeProvider
+
+
+
         .when("/addstudent", {
           template: '<div>\
             <form action="/student/save/:<%= id %>" method="POST" enctype="multipart/form-data"class="form-control">\
                               <h1>ADD STUDENT</h1>\
-\
                               <input type="number" placeholder="enter university rollnumber" name="urn"class="form-control"><br>\
-                              <input type="text" placeholder="username" name="name" class="form-control"><br>\
+                              <input type="text" placeholder="name" name="name" class="form-control"><br>\
+                              <input type="text" placeholder="enter password" name="password"class="form-control"><br>\
                               <input type="number" placeholder="phonenumber" name="phone" class="form-control"><br>\
                               <input type="number" placeholder="semster" name="semester" class="form-control" min="1"\
                                 max="8" step="1"><br>\
-                              <input type="text" placeholder="comment" name="comment" class="form-control"><br>\
+                                <br><label for="section"> Section</label><input type="radio" id="A" name="section" value="A">\
+  <label for="A">A</label>\
+ \
+  <label for="B">B</label><br>\
                               <div id="i">\
                                 <% if(mentor!=null) { %>\
 \
