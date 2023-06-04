@@ -6,7 +6,7 @@ var Faculity = require('./models/faculity');
 var login = 0;
 const Msg= require('./models/msg');
 const Event = require('./models/events');
-var objectId = require("mongodb").ObjectId;
+var ObjectId = require("mongodb").ObjectId;
 exports.home= (req, res) =>{res.redirect('\login')}
 
       
@@ -75,7 +75,7 @@ exports.hodparamsds = function(req, res){
     id = id.slice(1, id.length);
     console.log(id);
     console.log(Id);
-    Faculity.findByIdAndDelete(new objectId(Id)).then(() => {
+    Faculity.findByIdAndDelete(new ObjectId(Id)).then(() => {
         login = id;
         res.redirect(`/faculityview/:${id}`)
 
@@ -89,14 +89,18 @@ exports.hodparamsds = function(req, res){
 exports.hodparams = function (req, res) {
     var id = req.params.id;
     id = id.slice(1, id.length);
+    var data=Faculity.findById(new ObjectId(id));
     if (login == id) {
         var sem = req.body.semester;
         var event = Event.find({}).then(function (events) {
-            var items = Faculity.find({}).then(function (FoundItems) {
+            var items = Faculity.find({position:"false"}).then(function (FoundItems) {
                 var it = Student.find({ semester: sem }).then(function (i) {
                     var msg = Msg.find({}).sort({ _id: -1 }).limit(10).then(function (msg) {
                         var mentor = Faculity.find({ position: false }).then(function (m) {
-                            res.render(__dirname + '/view/hodview/crud.html', { msgs: msg, name: FoundItems, name2: null, events: events, mentor: m, id: id ,an:null})
+                            var p = Faculity.findById(new ObjectId(id)).then(function (p) {
+
+                            res.render(__dirname + '/view/hodview/crud.html', { msgs: msg, name: FoundItems, name2: null, events: events, mentor: m, id: id ,an:null,imgdata:p})
+                            })
 
                         })
                     })
@@ -113,14 +117,18 @@ exports.hodparams = function (req, res) {
 exports.hodparamsname = function (req, res) {
     var id = req.params.id;
     id = id.slice(1, id.length);
+    var data=Faculity.findById(new ObjectId(id));
     if (login == id) {
         var sem = req.body.name;
         var event = Event.find({}).then(function (events) {
-            var items = Faculity.find({}).then(function (FoundItems) {
+            var items = Faculity.find({position:"false"}).then(function (FoundItems) {
                 var it = Student.find({ name:  { $regex: '.*' + sem + '.*' }  }).then(function (i) {
                     var msg = Msg.find({}).sort({ _id: -1 }).limit(10).then(function (msg) {
                         var mentor = Faculity.find({ position: false }).then(function (m) {
-                            res.render(__dirname + '/view/hodview/crud.html', { msgs: msg, name: FoundItems, name2: null, events: events, mentor: m, id: id,an:i })
+                            var p = Faculity.findById(new ObjectId(id)).then(function (p) {
+
+                            res.render(__dirname + '/view/hodview/crud.html', { msgs: msg, name: FoundItems, name2: null, events: events, mentor: m, id: id,an:i ,imgdata:p})
+                            })
 
                         })
                     })
@@ -137,16 +145,20 @@ exports.hodparamsname = function (req, res) {
 exports.hodparamspost = function (req, res) {
     var id = req.params.id;
     id = id.slice(1, id.length);
+    
     if (login == id) {
         var sem = req.body.semester;
 
         var na = req.body.name;
         var event = Event.find({}).then(function (events) {
-            var items = Faculity.find({}).then(function (FoundItems) {
+            var items = Faculity.find({position:"false"}).then(function (FoundItems) {
                 var it = Student.find({ semester: sem }).then(function (i) {
                     var msg = Msg.find({}).sort({ _id: -1 }).limit(10).then(function (msg) {
                         var mentor = Faculity.find({ position: false }).then(function (m) {
-                            res.render(__dirname + '/view/hodview/crud.html', { msgs: msg, name: FoundItems, name2: i, events: events, mentor: m, id: id ,an:null})
+                            var p = Faculity.findById(new ObjectId(id)).then(function (p) {
+
+                            res.render(__dirname + '/view/hodview/crud.html', { msgs: msg, name: FoundItems, name2: i, events: events, mentor: m, id: id ,an:null,imgdata:p})
+                            })
 
                         })
                     })
@@ -166,6 +178,7 @@ exports.mentorgetid = function (req, res) {
     var id = req.params.id;
     id = id.slice(1, id.length);
     console.log(id);
+    var data=Faculity.findById(new ObjectId(id));
     if (login == id) {
 
 
@@ -174,9 +187,9 @@ exports.mentorgetid = function (req, res) {
             var items = Student.find({}).then(function (FoundItems) {
                 var mentor = Faculity.find({ position: false }).then(function (i) {
                     var msg = Msg.find({}).sort({ _id: -1 }).limit(10).then(function (msg) {
-                        var p = Faculity.findById(new objectId(id)).then(function (p) {
+                        var p = Faculity.findById(new ObjectId(id)).then(function (p) {
 
-                            res.render(__dirname + '/view/mentorview/crud.html', { msgs: msg, name2: null, mentor: i, events: events, m: p ,an: null})
+                            res.render(__dirname + '/view/mentorview/crud.html', { msgs: msg, name2: null, mentor: i, events: events, m: p ,an: null,imgdata:p})
 
                         })
 
@@ -196,13 +209,14 @@ exports.mentorpostid =  function(req, res) {
     var m = Faculity.findOne({ id: id });
     var sem = req.body.semester;
     login = id;
+    var data=Faculity.findById(new ObjectId(id));
     var event = Event.find({}).then(function (events) {
         var items = Student.find({ semester: sem }).then(function (FoundItems) {
             var mentor = Faculity.find({ position: false }).then(function (i) {
                 var msg = Msg.find({}).sort({ _id: -1 }).limit(10).then(function (msg) {
-                    var p = Faculity.findById(new objectId(id)).then(function (p) {
+                    var p = Faculity.findById(new ObjectId(id)).then(function (p) {
 
-                        res.render(__dirname + '/view/mentorview/crud.html', { msgs: msg, name2: FoundItems, mentor: i, events: events, m: p ,an:null})
+                        res.render(__dirname + '/view/mentorview/crud.html', { msgs: msg, name2: FoundItems, mentor: i, events: events, m: p ,an:null,imgdata:p})
 
                     })
                 })
@@ -267,7 +281,7 @@ exports.dltstudent =  function(req, res) {
 
     id = id.slice(1, id.length);
     login = id;
-    Student.findByIdAndDelete(new objectId(Id)).then(() => {
+    Student.findByIdAndDelete(new ObjectId(Id)).then(() => {
         res.redirect(`/faculityview/:${id}`)
             ;
     })
@@ -279,7 +293,7 @@ exports.dltevent =  function(req, res) {
     var id = req.params.id;
     id = id.slice(1, id.length);
     login = id;
-    Event.findByIdAndDelete(new objectId(Id)).then(() => {
+    Event.findByIdAndDelete(new ObjectId(Id)).then(() => {
         res.redirect(`/faculityview/:${id}`)
             ;
     })
@@ -291,7 +305,7 @@ exports.dltmsg= function(req, res){
     var id=req.params.id;
     id=id.slice(1,id.length);
     login = id;
-     Msg.findByIdAndDelete(new objectId(Id)).then(()=>{
+     Msg.findByIdAndDelete(new ObjectId(Id)).then(()=>{
       res.redirect(`/faculityview/:${id}`)
   ;  })
     // Event.findByIdAndDelete({name});
@@ -323,7 +337,7 @@ exports.upfacpost=  function(req, res) {
     console.log(Id);
     var ph=req.body.phone;
     login = id;
-    Faculity.findByIdAndUpdate(new objectId(Id),{phone:ph}).then(()=>{
+    Faculity.findByIdAndUpdate(new ObjectId(Id),{phone:ph}).then(()=>{
       res.redirect(`/faculityview/:${id}`)
       
     }).catch((err)=>{

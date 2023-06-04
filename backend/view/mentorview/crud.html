@@ -97,6 +97,7 @@ app.controller("myCtrl", function($scope) {
                             <th>Activity Performed</th>
                         </tr>
                         <% name2.forEach(function(item){ %>
+                            <% if(item.mentor=== m.name) {%>
                             <tr>
                                 
                                     <td>
@@ -116,17 +117,20 @@ app.controller("myCtrl", function($scope) {
                                     </td>
                                    
                                     <form action="/savecomment/:<%= item.id %>" method="POST">
-                                        <td><input type="text" name="comment" value="<%=item.comment%>" required></td>
+                                        <td><input type="text" name="comment" value="<%=item.comment%>" style="border: 0px;" required></td>
                                         <td><button type="submit">Add Activity</button></td>
                                     </form>
                             </tr>
-                            <% }) %>
+                            <% }}) %>
                     </table>
                     <% } %> 
                 </div>
 
         </div>
         <div class="col-sm-2">
+            <% if(imgdata.img.data!=null) { %><img width="300px" height="350" src="data:image/<%=imgdata.img.contentType%>;base64,
+            <%=imgdata.img.data.toString('base64')%>" alt="image">
+            <% } %> <br>
             <h1>MESSEGES</h1>
             <div>
                 <div style="border: 2px solid black;border-radius: 10px;">

@@ -329,7 +329,7 @@
 
 
     <div class="col-sm-8 mt-2" style="background-color: rgb(243, 241, 241);">
-      
+      <h1>  WELCOME <%= imgdata.name.toUpperCase();%></h1>
        <div style="text-align: center;margin: 2px 10%;">
         <div class="table-responsive">
               <% if(name2!=null) { %>
@@ -496,6 +496,9 @@
   </div>
     <div class="col-sm-2" style="background-color: azure;">
 
+      <% if(imgdata.img.data!=null) { %><img width="300px" height="350" src="data:image/<%=imgdata.img.contentType%>;base64,
+      <%=imgdata.img.data.toString('base64')%>" alt="image">
+      <% } %> <br>
 <!-- <div  style="margin-right: 5%;">
       <div style="text-align: center; margin :20px 10px">
         <form action="/extend"> <button  type="submit"> NEW SEMESTER</button></form><br>
@@ -556,7 +559,7 @@
         <button id="exit">Close Dialog</button>
       </dialog>
 
-      <button id="show">ADD STUDENT</button>
+      <!-- <button id="show">ADD STUDENT</button> -->
       <script>  (function() {  
 
             var dialog = document.getElementById('window');
